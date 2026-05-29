@@ -206,7 +206,7 @@
 
   .footer-insight blockquote {
     font-size: 16px;
-    color: #8A9BB0;
+    color: #C8C0B4;
     font-style: italic;
     max-width: 620px;
     margin: 0 auto;
@@ -215,7 +215,7 @@
 
   .footer-insight .note {
     font-size: 11px;
-    color: #4A5A6A;
+    color: #8A9BB0;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.04em;
     margin-top: 18px;
@@ -224,7 +224,7 @@
 
   .footer-insight .credit {
     font-size: 11px;
-    color: #3A4A5A;
+    color: #6A7B8D;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.04em;
     margin-top: 24px;
@@ -238,7 +238,7 @@
   .tooltip {
     position: absolute;
     background: #0D1B2A;
-    border: 1px solid #2A3644;
+    border: 1px solid #3A5A6A;
     border-radius: 6px;
     padding: 10px 14px;
     pointer-events: none;
@@ -250,9 +250,9 @@
   }
 
   .tooltip .tt-name {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
-    color: #F4F1DE;
+    color: #FFFFFF;
     margin-bottom: 4px;
   }
 
@@ -265,7 +265,7 @@
 
   .tooltip .tt-elev {
     font-size: 11px;
-    color: #8A9BB0;
+    color: #C8C0B4;
   }
 
   .tooltip .tt-status {
@@ -345,44 +345,55 @@
 
 <script>
 const JOBS = [
-  { name: "Data Entry Clerk", elevation: 5, sector: "admin", x: 0.12 },
-  { name: "Toll Booth Operator", elevation: 3, sector: "physical", x: 0.06 },
-  { name: "Telemarketer", elevation: 10, sector: "service", x: 0.18 },
-  { name: "Cashier", elevation: 12, sector: "service", x: 0.09 },
-  { name: "Assembly Line (Repetitive)", elevation: 14, sector: "physical", x: 0.15 },
-  { name: "Content Moderator", elevation: 16, sector: "admin", x: 0.22 },
-  { name: "Warehouse Picker", elevation: 18, sector: "physical", x: 0.20 },
-  { name: "Long-Haul Truck Driver", elevation: 20, sector: "physical", x: 0.25 },
-  { name: "Fast Food Worker", elevation: 22, sector: "service", x: 0.17 },
-  { name: "Tax Preparer", elevation: 25, sector: "knowledge", x: 0.28 },
-  { name: "Basic Paralegal", elevation: 28, sector: "knowledge", x: 0.31 },
-  { name: "Junior Copywriter", elevation: 27, sector: "creative", x: 0.24 },
-  { name: "Real Estate Agent", elevation: 31, sector: "service", x: 0.34 },
-  { name: "Translator", elevation: 32, sector: "knowledge", x: 0.30 },
-  { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.37 },
-  { name: "Graphic Designer", elevation: 34, sector: "creative", x: 0.27 },
-  { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.40 },
-  { name: "Accountant", elevation: 36, sector: "knowledge", x: 0.43 },
-  { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.46 },
-  { name: "Pharmacist (Dispensing)", elevation: 40, sector: "knowledge", x: 0.36 },
-  { name: "Radiologist", elevation: 42, sector: "knowledge", x: 0.49 },
-  { name: "Journalist", elevation: 39, sector: "creative", x: 0.33 },
-  { name: "Management Consultant", elevation: 52, sector: "knowledge", x: 0.52 },
-  { name: "Senior Software Architect", elevation: 55, sector: "knowledge", x: 0.56 },
-  { name: "Nurse Practitioner", elevation: 56, sector: "service", x: 0.50 },
-  { name: "Skilled Trades (Plumber)", elevation: 58, sector: "physical", x: 0.48 },
-  { name: "Research Scientist", elevation: 60, sector: "knowledge", x: 0.62 },
-  { name: "Surgeon", elevation: 65, sector: "knowledge", x: 0.66 },
-  { name: "Film Director", elevation: 57, sector: "creative", x: 0.54 },
-  { name: "Executive Leadership", elevation: 72, sector: "leadership", x: 0.70 },
-  { name: "Emergency First Responder", elevation: 73, sector: "physical", x: 0.60 },
-  { name: "Trial Lawyer", elevation: 75, sector: "knowledge", x: 0.74 },
-  { name: "Mental Health Therapist", elevation: 78, sector: "service", x: 0.68 },
-  { name: "Diplomatic Negotiator", elevation: 80, sector: "leadership", x: 0.78 },
-  { name: "Crisis Negotiator", elevation: 88, sector: "leadership", x: 0.82 },
-  { name: "Federal Judge", elevation: 90, sector: "leadership", x: 0.86 },
-  { name: "Spiritual Leader", elevation: 92, sector: "leadership", x: 0.84 },
-  { name: "Head of State", elevation: 95, sector: "leadership", x: 0.90 },
+  // Floodplain - spread wide across left portion
+  { name: "Toll Booth Operator", elevation: 3, sector: "physical", x: 0.05, labelSide: "right" },
+  { name: "Data Entry Clerk", elevation: 5, sector: "admin", x: 0.14, labelSide: "right" },
+  { name: "Telemarketer", elevation: 10, sector: "service", x: 0.08, labelSide: "left" },
+  { name: "Cashier", elevation: 12, sector: "service", x: 0.20, labelSide: "right" },
+  { name: "Assembly Line (Repetitive)", elevation: 14, sector: "physical", x: 0.12, labelSide: "left" },
+
+  // Coastal - more horizontal spread
+  { name: "Content Moderator", elevation: 16, sector: "admin", x: 0.26, labelSide: "right" },
+  { name: "Warehouse Picker", elevation: 18, sector: "physical", x: 0.18, labelSide: "right" },
+  { name: "Long-Haul Truck Driver", elevation: 20, sector: "physical", x: 0.30, labelSide: "right" },
+  { name: "Fast Food Worker", elevation: 22, sector: "service", x: 0.22, labelSide: "left" },
+  { name: "Tax Preparer", elevation: 25, sector: "knowledge", x: 0.35, labelSide: "right" },
+  { name: "Junior Copywriter", elevation: 27, sector: "creative", x: 0.28, labelSide: "left" },
+  { name: "Basic Paralegal", elevation: 28, sector: "knowledge", x: 0.40, labelSide: "right" },
+
+  // Foothills - spread across middle with more breathing room
+  { name: "Real Estate Agent", elevation: 31, sector: "service", x: 0.34, labelSide: "left" },
+  { name: "Translator", elevation: 32, sector: "knowledge", x: 0.44, labelSide: "right" },
+  { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.38, labelSide: "left" },
+  { name: "Graphic Designer", elevation: 34, sector: "creative", x: 0.30, labelSide: "left" },
+  { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.50, labelSide: "right" },
+  { name: "Accountant", elevation: 36, sector: "knowledge", x: 0.42, labelSide: "left" },
+  { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.54, labelSide: "right" },
+  { name: "Journalist", elevation: 39, sector: "creative", x: 0.36, labelSide: "left" },
+  { name: "Pharmacist (Dispensing)", elevation: 40, sector: "knowledge", x: 0.48, labelSide: "left" },
+  { name: "Radiologist", elevation: 42, sector: "knowledge", x: 0.58, labelSide: "right" },
+
+  // Mountain - well spaced
+  { name: "Management Consultant", elevation: 52, sector: "knowledge", x: 0.54, labelSide: "left" },
+  { name: "Senior Software Architect", elevation: 55, sector: "knowledge", x: 0.62, labelSide: "right" },
+  { name: "Nurse Practitioner", elevation: 56, sector: "service", x: 0.50, labelSide: "left" },
+  { name: "Film Director", elevation: 57, sector: "creative", x: 0.58, labelSide: "left" },
+  { name: "Skilled Trades (Plumber)", elevation: 58, sector: "physical", x: 0.46, labelSide: "left" },
+  { name: "Research Scientist", elevation: 60, sector: "knowledge", x: 0.66, labelSide: "right" },
+  { name: "Surgeon", elevation: 65, sector: "knowledge", x: 0.72, labelSide: "right" },
+
+  // Alpine
+  { name: "Executive Leadership", elevation: 72, sector: "leadership", x: 0.70, labelSide: "left" },
+  { name: "Emergency First Responder", elevation: 73, sector: "physical", x: 0.64, labelSide: "left" },
+  { name: "Trial Lawyer", elevation: 75, sector: "knowledge", x: 0.78, labelSide: "right" },
+  { name: "Mental Health Therapist", elevation: 78, sector: "service", x: 0.68, labelSide: "left" },
+  { name: "Diplomatic Negotiator", elevation: 80, sector: "leadership", x: 0.82, labelSide: "right" },
+
+  // Summit - spread along the peak
+  { name: "Crisis Negotiator", elevation: 88, sector: "leadership", x: 0.80, labelSide: "left" },
+  { name: "Federal Judge", elevation: 90, sector: "leadership", x: 0.88, labelSide: "right" },
+  { name: "Spiritual Leader", elevation: 92, sector: "leadership", x: 0.84, labelSide: "left" },
+  { name: "Head of State", elevation: 95, sector: "leadership", x: 0.92, labelSide: "right" },
 ];
 
 const ZONES = [
@@ -411,7 +422,7 @@ const YEAR_MARKS = [
   { year: 2035, level: 88 }
 ];
 
-const W = 1100, H = 700, PAD = 60;
+const W = 1100, H = 750, PAD = 65;
 let waterLevel = 28;
 let showLabels = true;
 
@@ -459,7 +470,6 @@ function render() {
   const waterY = elevToY(waterLevel);
   const subCount = JOBS.filter(j => j.elevation <= waterLevel).length;
 
-  // Stats
   let curYear = 2023;
   for (let i = YEAR_MARKS.length - 1; i >= 0; i--) {
     if (waterLevel >= YEAR_MARKS[i].level) { curYear = YEAR_MARKS[i].year; break; }
@@ -468,21 +478,17 @@ function render() {
   document.getElementById('stat-submerged').textContent = subCount + '/' + JOBS.length;
   document.getElementById('stat-level').textContent = Math.round(waterLevel) + '%';
 
-  // Year marks
   const ymHtml = YEAR_MARKS.map(m =>
     `<span class="${waterLevel >= m.level ? 'active' : ''}">${m.year}</span>`
   ).join('');
   document.getElementById('year-marks').innerHTML = ymHtml;
 
-  // Slider gradient
   const slider = document.getElementById('water-slider');
   const pct = (waterLevel / 98) * 100;
   slider.style.background = `linear-gradient(to right, #1B4F72 0%, #4A9FD9 ${pct}%, #2A3644 ${pct}%, #2A3644 100%)`;
 
-  // SVG
   let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
 
-  // Defs
   svg += `<defs>
     <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#8B7355"/>
@@ -498,12 +504,14 @@ function render() {
       <stop offset="0%" stop-color="#F0EDE6" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#D5CFC5" stop-opacity="0.4"/>
     </linearGradient>
-    <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/>
+    <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textshadow">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#000000" flood-opacity="0.8"/>
     </filter>
   </defs>`;
 
-  // Background
   svg += `<rect width="${W}" height="${H}" fill="#0D1B2A"/>`;
 
   // Zone lines and labels
@@ -513,8 +521,8 @@ function render() {
     const midY = (topY + botY) / 2;
     const sub = z.max <= waterLevel;
     svg += `<line x1="${PAD}" y1="${topY}" x2="${W - PAD}" y2="${topY}" stroke="${sub ? '#1B4F72' : '#2A3644'}" stroke-width="0.5" stroke-dasharray="4,8" opacity="0.5"/>`;
-    svg += `<text x="${PAD - 4}" y="${midY - 6}" text-anchor="end" fill="${sub ? '#3A6A8A' : '#5A6A7A'}" font-size="9" font-family="DM Sans, sans-serif" font-weight="600" letter-spacing="0.12em">${z.name}</text>`;
-    svg += `<text x="${PAD - 4}" y="${midY + 7}" text-anchor="end" fill="${sub ? '#2A5A7A' : '#4A5A6A'}" font-size="7" font-family="DM Sans, sans-serif" font-style="italic">${z.sub}</text>`;
+    svg += `<text x="${PAD - 6}" y="${midY - 6}" text-anchor="end" fill="${sub ? '#5A8AAA' : '#8A9BB0'}" font-size="10" font-family="DM Sans, sans-serif" font-weight="600" letter-spacing="0.12em">${z.name}</text>`;
+    svg += `<text x="${PAD - 6}" y="${midY + 8}" text-anchor="end" fill="${sub ? '#4A7A9A' : '#6A7B8D'}" font-size="8" font-family="DM Sans, sans-serif" font-style="italic">${z.sub}</text>`;
   });
 
   // Terrain
@@ -524,13 +532,13 @@ function render() {
   // Water
   if (waterY < H - PAD) {
     svg += `<rect x="${PAD}" y="${waterY}" width="${W - PAD * 2}" height="${H - PAD - waterY}" fill="url(#wg)"/>`;
-    svg += `<line x1="${PAD}" y1="${waterY}" x2="${W - PAD}" y2="${waterY}" stroke="#4A9FD9" stroke-width="1.5" opacity="0.7"/>`;
-    for (let i = 0; i < 10; i++) {
-      const cx = PAD + 30 + i * ((W - PAD * 2 - 60) / 9);
-      svg += `<circle cx="${cx}" cy="${waterY}" r="1.5" fill="#6AB8E6" opacity="0.35"/>`;
+    svg += `<line x1="${PAD}" y1="${waterY}" x2="${W - PAD}" y2="${waterY}" stroke="#4A9FD9" stroke-width="2" opacity="0.8"/>`;
+    for (let i = 0; i < 12; i++) {
+      const cx = PAD + 20 + i * ((W - PAD * 2 - 40) / 11);
+      svg += `<circle cx="${cx}" cy="${waterY}" r="1.5" fill="#6AB8E6" opacity="0.4"/>`;
     }
-    svg += `<text x="${W - PAD + 4}" y="${waterY + 4}" fill="#4A9FD9" font-size="9" font-family="DM Sans, sans-serif" font-weight="600">WATER</text>`;
-    svg += `<text x="${W - PAD + 4}" y="${waterY + 14}" fill="#4A9FD9" font-size="9" font-family="DM Sans, sans-serif" font-weight="600">LINE</text>`;
+    svg += `<text x="${W - PAD + 6}" y="${waterY + 5}" fill="#6AB8E6" font-size="10" font-family="DM Sans, sans-serif" font-weight="600">WATER</text>`;
+    svg += `<text x="${W - PAD + 6}" y="${waterY + 16}" fill="#6AB8E6" font-size="10" font-family="DM Sans, sans-serif" font-weight="600">LINE</text>`;
   }
 
   // Job markers
@@ -539,21 +547,26 @@ function render() {
     const jy = elevToY(job.elevation);
     const sub = job.elevation <= waterLevel;
     const col = SECTOR_COLORS[job.sector];
-    const anchor = jx > W * 0.7 ? 'end' : 'start';
-    const lx = jx + (jx > W * 0.7 ? -8 : 8);
 
-    // Glow
-    svg += `<circle cx="${jx}" cy="${jy}" r="6" fill="${col}" opacity="${sub ? 0.06 : 0.12}"/>`;
+    // Use per-job labelSide for anchor direction
+    const goLeft = job.labelSide === "left";
+    const anchor = goLeft ? "end" : "start";
+    const lx = jx + (goLeft ? -10 : 10);
+
+    // Outer glow
+    svg += `<circle cx="${jx}" cy="${jy}" r="8" fill="${col}" opacity="${sub ? 0.05 : 0.15}"/>`;
     // Dot
-    svg += `<circle cx="${jx}" cy="${jy}" r="3.5" fill="${sub ? '#2A4A5A' : col}" stroke="${sub ? '#3A5A6A' : col}" stroke-width="1" opacity="${sub ? 0.45 : 1}" data-idx="${idx}" class="job-dot"/>`;
+    svg += `<circle cx="${jx}" cy="${jy}" r="4.5" fill="${sub ? '#2A4A5A' : col}" stroke="${sub ? '#4A6A7A' : col}" stroke-width="1.5" opacity="${sub ? 0.4 : 1}" data-idx="${idx}" class="job-dot"/>`;
 
     if (sub) {
-      svg += `<text x="${jx}" y="${jy + 1.5}" text-anchor="middle" dominant-baseline="middle" fill="#8AAABB" font-size="5" font-weight="bold">x</text>`;
+      svg += `<text x="${jx}" y="${jy + 1.5}" text-anchor="middle" dominant-baseline="middle" fill="#8AAABB" font-size="6" font-weight="bold">x</text>`;
     }
 
-    // Labels
+    // Labels - WHITE text, bigger font, with text shadow for contrast
     if (showLabels) {
-      svg += `<text x="${lx}" y="${jy - 10}" text-anchor="${anchor}" fill="${sub ? '#4A6A7A' : '#C8C0B4'}" font-size="8" font-family="DM Sans, sans-serif" opacity="${sub ? 0.5 : 0.85}" ${sub ? 'text-decoration="line-through"' : ''}>${job.name}</text>`;
+      const fillColor = sub ? '#7A9AAA' : '#FFFFFF';
+      const opacity = sub ? 0.6 : 0.95;
+      svg += `<text x="${lx}" y="${jy - 12}" text-anchor="${anchor}" fill="${fillColor}" font-size="10.5" font-family="DM Sans, sans-serif" font-weight="500" opacity="${opacity}" filter="url(#textshadow)" ${sub ? 'text-decoration="line-through"' : ''}>${job.name}</text>`;
     }
   });
 
@@ -561,7 +574,7 @@ function render() {
   document.getElementById('viz').querySelector('svg')?.remove();
   document.getElementById('viz').insertAdjacentHTML('afterbegin', svg);
 
-  // Attach hover events
+  // Hover events
   document.querySelectorAll('.job-dot').forEach(dot => {
     dot.style.cursor = 'pointer';
     dot.addEventListener('mouseenter', (e) => {
@@ -580,18 +593,18 @@ function render() {
       const vizRect = document.getElementById('viz').getBoundingClientRect();
       const dotRect = dot.getBoundingClientRect();
       let left = dotRect.left - vizRect.left + 16;
-      let top = dotRect.top - vizRect.top - 60;
+      let top = dotRect.top - vizRect.top - 70;
       if (left + 200 > vizRect.width) left = left - 220;
       if (top < 0) top = dotRect.top - vizRect.top + 16;
       tt.style.left = left + 'px';
       tt.style.top = top + 'px';
 
-      dot.setAttribute('r', '6');
+      dot.setAttribute('r', '7');
       dot.setAttribute('filter', sub ? '' : 'url(#glow)');
     });
     dot.addEventListener('mouseleave', () => {
       document.getElementById('tooltip').style.display = 'none';
-      dot.setAttribute('r', '3.5');
+      dot.setAttribute('r', '4.5');
       dot.removeAttribute('filter');
     });
   });
@@ -616,7 +629,6 @@ document.getElementById('toggle-labels').addEventListener('click', () => {
   render();
 });
 
-// Initial render
 render();
 </script>
 </body>
