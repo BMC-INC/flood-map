@@ -143,7 +143,7 @@
       <span class="cta">Drag to flood the market</span>
       <span>2035+</span>
     </div>
-    <input type="range" id="water-slider" min="0" max="98" value="28">
+    <input type="range" id="water-slider" min="0" max="128" value="28">
     <div class="year-marks" id="year-marks"></div>
   </div>
 
@@ -195,11 +195,11 @@ const JOBS = [
     why: "Neural machine translation crossed human parity for most language pairs. Real-time conversation translation is now consumer-grade. Specialized legal and literary work remains." },
   { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.33, side: "right", above: true,
     why: "Algorithmic underwriting using broader data sources reduces manual review to genuine edge cases. Routine policy decisions are now made in milliseconds." },
-  { name: "Graphic Designer", elevation: 34, sector: "creative", x: 0.45, side: "right", above: false,
+  { name: "Graphic Designer", elevation: 31, sector: "creative", x: 0.45, side: "right", above: false,
     why: "Midjourney, Adobe Firefly, and Figma AI handle most production design work. Senior creative direction and brand strategy remain human-led, junior production work does not." },
   { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.57, side: "right", above: true,
     why: "Claude Code, Cursor, and Devin complete tickets autonomously. Entry-level hiring at major firms is already shrinking. The traditional engineering pipeline is breaking." },
-  { name: "Accountant", elevation: 36, sector: "knowledge", x: 0.68, side: "right", above: false,
+  { name: "Accountant", elevation: 33, sector: "knowledge", x: 0.68, side: "right", above: false,
     why: "AI handles books, reconciliation, and audit prep. CPA work concentrates on advisory and complex compliance. Bookkeeping as a profession is effectively over." },
   { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.78, side: "left", above: true,
     why: "Models build, screen, and report on portfolios autonomously. Buy-side junior analyst roles are shrinking fastest as workflows compress into prompt-driven research." },
@@ -264,8 +264,9 @@ const SECTOR_LABELS = {
   knowledge: "Knowledge Work", creative: "Creative", leadership: "Leadership / Judgment"
 };
 const YEAR_MARKS = [
-  { year: 2023, level: 12 }, { year: 2024, level: 18 }, { year: 2026, level: 28 },
-  { year: 2028, level: 42 }, { year: 2030, level: 58 }, { year: 2032, level: 72 }, { year: 2035, level: 88 }
+  { year: 2023, level: 12 }, { year: 2026, level: 28 }, { year: 2028, level: 42 },
+  { year: 2030, level: 58 }, { year: 2032, level: 72 }, { year: 2035, level: 88 },
+  { year: 2040, level: 98 }, { year: 2050, level: 112 }, { year: 2060, level: 128 }
 ];
 
 const W = 1320, H = 860;
@@ -359,7 +360,7 @@ function render() {
   document.getElementById('year-marks').innerHTML =
     YEAR_MARKS.map(m => `<span class="${waterLevel >= m.level ? 'active' : ''}">${m.year}</span>`).join('');
 
-  const pct = (waterLevel / 98) * 100;
+  const pct = (waterLevel / 128) * 100;
   document.getElementById('water-slider').style.background =
     `linear-gradient(to right, #1B4F72 0%, #5AB0E6 ${pct}%, #2A3644 ${pct}%, #2A3644 100%)`;
 
