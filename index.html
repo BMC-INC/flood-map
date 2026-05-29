@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Map and the Flood | AI Displacement Risk by Job Elevation</title>
+<meta name="description" content="Interactive terrain map showing which jobs sit on Everest and which are already on floodplains as AI and robotics reshape the labor market.">
+<meta property="og:title" content="The Map and the Flood">
+<meta property="og:description" content="AI Displacement Risk by Job Elevation. Drag the slider to raise the water.">
+<meta property="og:type" content="website">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0B1622;
+    color: #E8E4DC;
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  header h1 {
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #F4F1DE;
+  }
+
+  header .subtitle {
+    font-size: 13px;
+    color: #8A9BB0;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    margin-bottom: 28px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 300;
+    text-align: center;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: #6A7B8D;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-align: center;
+    margin-top: 2px;
+  }
+
+  .viz-container {
+    position: relative;
+    background: #0D1B2A;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #1B2838;
+  }
+
+  .viz-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .slider-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 28px 20px;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: #5A6A7A;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    background: #2A3644;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #4A9FD9;
+    border: 3px solid #0D1B2A;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(74, 159, 217, 0.4);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #4A9FD9;
+    border: 3px solid #0D1B2A;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(74, 159, 217, 0.4);
+  }
+
+  .year-marks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #3A4A5A;
+  }
+
+  .year-marks span.active {
+    color: #4A9FD9;
+    font-weight: 600;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    padding: 20px 0;
+    border-top: 1px solid #1B2838;
+    margin-top: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #8A9BB0;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+
+  .controls {
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .controls button {
+    background: none;
+    border: 1px solid #2A3644;
+    color: #6A7B8D;
+    padding: 7px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .controls button:hover {
+    border-color: #4A9FD9;
+    color: #4A9FD9;
+  }
+
+  .footer-insight {
+    text-align: center;
+    padding: 28px 20px 12px;
+    border-top: 1px solid #1B2838;
+    margin-top: 8px;
+  }
+
+  .footer-insight blockquote {
+    font-size: 16px;
+    color: #8A9BB0;
+    font-style: italic;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .footer-insight .note {
+    font-size: 11px;
+    color: #4A5A6A;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.04em;
+    margin-top: 18px;
+    line-height: 1.6;
+  }
+
+  .footer-insight .credit {
+    font-size: 11px;
+    color: #3A4A5A;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.04em;
+    margin-top: 24px;
+  }
+
+  .footer-insight .credit a {
+    color: #4A9FD9;
+    text-decoration: none;
+  }
+
+  .tooltip {
+    position: absolute;
+    background: #0D1B2A;
+    border: 1px solid #2A3644;
+    border-radius: 6px;
+    padding: 10px 14px;
+    pointer-events: none;
+    display: none;
+    z-index: 100;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    min-width: 180px;
+  }
+
+  .tooltip .tt-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #F4F1DE;
+    margin-bottom: 4px;
+  }
+
+  .tooltip .tt-sector {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .tooltip .tt-elev {
+    font-size: 11px;
+    color: #8A9BB0;
+  }
+
+  .tooltip .tt-status {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 768px) {
+    header h1 { font-size: 26px; }
+    .stats { gap: 28px; }
+    .stat-value { font-size: 24px; }
+    .legend { gap: 12px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>The Map and the Flood</h1>
+    <p class="subtitle">AI Displacement Risk by Job Elevation</p>
+  </header>
+
+  <div class="stats">
+    <div>
+      <div class="stat-value" id="stat-year" style="color:#5B9BD5">~2026</div>
+      <div class="stat-label">Estimated Timeline</div>
+    </div>
+    <div>
+      <div class="stat-value" id="stat-submerged" style="color:#E07A5F">12/36</div>
+      <div class="stat-label">Jobs Submerged</div>
+    </div>
+    <div>
+      <div class="stat-value" id="stat-level" style="color:#81B29A">28%</div>
+      <div class="stat-label">Flood Level</div>
+    </div>
+  </div>
+
+  <div class="viz-container" id="viz" style="position:relative">
+    <div class="tooltip" id="tooltip">
+      <div class="tt-name"></div>
+      <div class="tt-sector"></div>
+      <div class="tt-elev"></div>
+      <div class="tt-status"></div>
+    </div>
+  </div>
+
+  <div class="slider-wrap">
+    <div class="slider-labels">
+      <span>2023 Baseline</span>
+      <span>Drag to raise the water</span>
+      <span>2035+</span>
+    </div>
+    <input type="range" id="water-slider" min="0" max="98" value="28">
+    <div class="year-marks" id="year-marks"></div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="controls">
+    <button id="toggle-labels">Hide Labels</button>
+  </div>
+
+  <div class="footer-insight">
+    <blockquote>"The contour lines are accurate. They just stop mattering when the flood reaches a certain height."</blockquote>
+    <p class="note">
+      Elevation is determined by task dimensionality, physical dexterity requirements,
+      trust/accountability barriers, emotional depth, and regulatory friction.<br>
+      The water keeps rising. There is no permanent high ground.
+    </p>
+    <p class="credit">
+      James Benton | <a href="https://execlayer.com" target="_blank">ExecLayer Inc.</a>
+    </p>
+  </div>
+</div>
+
+<script>
+const JOBS = [
+  { name: "Data Entry Clerk", elevation: 5, sector: "admin", x: 0.12 },
+  { name: "Toll Booth Operator", elevation: 3, sector: "physical", x: 0.06 },
+  { name: "Telemarketer", elevation: 10, sector: "service", x: 0.18 },
+  { name: "Cashier", elevation: 12, sector: "service", x: 0.09 },
+  { name: "Assembly Line (Repetitive)", elevation: 14, sector: "physical", x: 0.15 },
+  { name: "Content Moderator", elevation: 16, sector: "admin", x: 0.22 },
+  { name: "Warehouse Picker", elevation: 18, sector: "physical", x: 0.20 },
+  { name: "Long-Haul Truck Driver", elevation: 20, sector: "physical", x: 0.25 },
+  { name: "Fast Food Worker", elevation: 22, sector: "service", x: 0.17 },
+  { name: "Tax Preparer", elevation: 25, sector: "knowledge", x: 0.28 },
+  { name: "Basic Paralegal", elevation: 28, sector: "knowledge", x: 0.31 },
+  { name: "Junior Copywriter", elevation: 27, sector: "creative", x: 0.24 },
+  { name: "Real Estate Agent", elevation: 31, sector: "service", x: 0.34 },
+  { name: "Translator", elevation: 32, sector: "knowledge", x: 0.30 },
+  { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.37 },
+  { name: "Graphic Designer", elevation: 34, sector: "creative", x: 0.27 },
+  { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.40 },
+  { name: "Accountant", elevation: 36, sector: "knowledge", x: 0.43 },
+  { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.46 },
+  { name: "Pharmacist (Dispensing)", elevation: 40, sector: "knowledge", x: 0.36 },
+  { name: "Radiologist", elevation: 42, sector: "knowledge", x: 0.49 },
+  { name: "Journalist", elevation: 39, sector: "creative", x: 0.33 },
+  { name: "Management Consultant", elevation: 52, sector: "knowledge", x: 0.52 },
+  { name: "Senior Software Architect", elevation: 55, sector: "knowledge", x: 0.56 },
+  { name: "Nurse Practitioner", elevation: 56, sector: "service", x: 0.50 },
+  { name: "Skilled Trades (Plumber)", elevation: 58, sector: "physical", x: 0.48 },
+  { name: "Research Scientist", elevation: 60, sector: "knowledge", x: 0.62 },
+  { name: "Surgeon", elevation: 65, sector: "knowledge", x: 0.66 },
+  { name: "Film Director", elevation: 57, sector: "creative", x: 0.54 },
+  { name: "Executive Leadership", elevation: 72, sector: "leadership", x: 0.70 },
+  { name: "Emergency First Responder", elevation: 73, sector: "physical", x: 0.60 },
+  { name: "Trial Lawyer", elevation: 75, sector: "knowledge", x: 0.74 },
+  { name: "Mental Health Therapist", elevation: 78, sector: "service", x: 0.68 },
+  { name: "Diplomatic Negotiator", elevation: 80, sector: "leadership", x: 0.78 },
+  { name: "Crisis Negotiator", elevation: 88, sector: "leadership", x: 0.82 },
+  { name: "Federal Judge", elevation: 90, sector: "leadership", x: 0.86 },
+  { name: "Spiritual Leader", elevation: 92, sector: "leadership", x: 0.84 },
+  { name: "Head of State", elevation: 95, sector: "leadership", x: 0.90 },
+];
+
+const ZONES = [
+  { name: "FLOODPLAIN", sub: "Already underwater", max: 15 },
+  { name: "COASTAL", sub: "Flooding now", max: 30 },
+  { name: "FOOTHILLS", sub: "Water rising fast", max: 50 },
+  { name: "MOUNTAIN", sub: "Higher ground", max: 70 },
+  { name: "ALPINE", sub: "Seemingly safe", max: 85 },
+  { name: "SUMMIT", sub: "Last to go", max: 100 },
+];
+
+const SECTOR_COLORS = {
+  physical: "#E07A5F", service: "#81B29A", admin: "#F2CC8F",
+  knowledge: "#3D85C6", creative: "#C77DFF", leadership: "#F4F1DE"
+};
+
+const SECTOR_LABELS = {
+  physical: "Physical Labor", service: "Service", admin: "Administrative",
+  knowledge: "Knowledge Work", creative: "Creative", leadership: "Leadership / Judgment"
+};
+
+const YEAR_MARKS = [
+  { year: 2023, level: 12 }, { year: 2024, level: 18 },
+  { year: 2026, level: 28 }, { year: 2028, level: 42 },
+  { year: 2030, level: 58 }, { year: 2032, level: 72 },
+  { year: 2035, level: 88 }
+];
+
+const W = 1100, H = 700, PAD = 60;
+let waterLevel = 28;
+let showLabels = true;
+
+function elevToY(elev) {
+  return PAD + (H - PAD * 2) * (1 - elev / 100);
+}
+
+function terrainElev(t) {
+  const base = Math.pow(t, 0.6) * 0.85;
+  const r1 = Math.sin(t * Math.PI * 3) * 0.04;
+  const r2 = Math.sin(t * Math.PI * 7) * 0.015;
+  const r3 = Math.sin(t * Math.PI * 13) * 0.008;
+  return Math.min(1, base + r1 + r2 + r3);
+}
+
+function buildTerrainPath() {
+  let d = `M ${PAD} ${H - PAD} `;
+  for (let i = 0; i <= 200; i++) {
+    const t = i / 200;
+    const x = PAD + t * (W - PAD * 2);
+    const y = elevToY(terrainElev(t) * 100);
+    d += `L ${x} ${y} `;
+  }
+  d += `L ${W - PAD} ${H - PAD} Z`;
+  return d;
+}
+
+function buildSnowPath() {
+  const startT = 0.7;
+  let pts = [];
+  for (let i = 0; i <= 60; i++) {
+    const t = startT + (i / 60) * (1 - startT);
+    const x = PAD + t * (W - PAD * 2);
+    const y = elevToY(terrainElev(t) * 100);
+    pts.push({ x, y });
+  }
+  const snowLine = elevToY(78);
+  let d = `M ${pts[0].x} ${snowLine} `;
+  pts.forEach(p => { d += `L ${p.x} ${Math.min(p.y, snowLine)} `; });
+  d += `L ${pts[pts.length - 1].x} ${snowLine} Z`;
+  return d;
+}
+
+function render() {
+  const waterY = elevToY(waterLevel);
+  const subCount = JOBS.filter(j => j.elevation <= waterLevel).length;
+
+  // Stats
+  let curYear = 2023;
+  for (let i = YEAR_MARKS.length - 1; i >= 0; i--) {
+    if (waterLevel >= YEAR_MARKS[i].level) { curYear = YEAR_MARKS[i].year; break; }
+  }
+  document.getElementById('stat-year').textContent = '~' + curYear;
+  document.getElementById('stat-submerged').textContent = subCount + '/' + JOBS.length;
+  document.getElementById('stat-level').textContent = Math.round(waterLevel) + '%';
+
+  // Year marks
+  const ymHtml = YEAR_MARKS.map(m =>
+    `<span class="${waterLevel >= m.level ? 'active' : ''}">${m.year}</span>`
+  ).join('');
+  document.getElementById('year-marks').innerHTML = ymHtml;
+
+  // Slider gradient
+  const slider = document.getElementById('water-slider');
+  const pct = (waterLevel / 98) * 100;
+  slider.style.background = `linear-gradient(to right, #1B4F72 0%, #4A9FD9 ${pct}%, #2A3644 ${pct}%, #2A3644 100%)`;
+
+  // SVG
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // Defs
+  svg += `<defs>
+    <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B7355"/>
+      <stop offset="30%" stop-color="#6B5B45"/>
+      <stop offset="60%" stop-color="#4A4035"/>
+      <stop offset="100%" stop-color="#2A2520"/>
+    </linearGradient>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1B4F72" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0B2E4A" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0EDE6" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#D5CFC5" stop-opacity="0.4"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>`;
+
+  // Background
+  svg += `<rect width="${W}" height="${H}" fill="#0D1B2A"/>`;
+
+  // Zone lines and labels
+  ZONES.forEach((z, i) => {
+    const topY = elevToY(z.max);
+    const botY = i === 0 ? H - PAD : elevToY(ZONES[i - 1].max);
+    const midY = (topY + botY) / 2;
+    const sub = z.max <= waterLevel;
+    svg += `<line x1="${PAD}" y1="${topY}" x2="${W - PAD}" y2="${topY}" stroke="${sub ? '#1B4F72' : '#2A3644'}" stroke-width="0.5" stroke-dasharray="4,8" opacity="0.5"/>`;
+    svg += `<text x="${PAD - 4}" y="${midY - 6}" text-anchor="end" fill="${sub ? '#3A6A8A' : '#5A6A7A'}" font-size="9" font-family="DM Sans, sans-serif" font-weight="600" letter-spacing="0.12em">${z.name}</text>`;
+    svg += `<text x="${PAD - 4}" y="${midY + 7}" text-anchor="end" fill="${sub ? '#2A5A7A' : '#4A5A6A'}" font-size="7" font-family="DM Sans, sans-serif" font-style="italic">${z.sub}</text>`;
+  });
+
+  // Terrain
+  svg += `<path d="${buildTerrainPath()}" fill="url(#tg)"/>`;
+  svg += `<path d="${buildSnowPath()}" fill="url(#sg)"/>`;
+
+  // Water
+  if (waterY < H - PAD) {
+    svg += `<rect x="${PAD}" y="${waterY}" width="${W - PAD * 2}" height="${H - PAD - waterY}" fill="url(#wg)"/>`;
+    svg += `<line x1="${PAD}" y1="${waterY}" x2="${W - PAD}" y2="${waterY}" stroke="#4A9FD9" stroke-width="1.5" opacity="0.7"/>`;
+    for (let i = 0; i < 10; i++) {
+      const cx = PAD + 30 + i * ((W - PAD * 2 - 60) / 9);
+      svg += `<circle cx="${cx}" cy="${waterY}" r="1.5" fill="#6AB8E6" opacity="0.35"/>`;
+    }
+    svg += `<text x="${W - PAD + 4}" y="${waterY + 4}" fill="#4A9FD9" font-size="9" font-family="DM Sans, sans-serif" font-weight="600">WATER</text>`;
+    svg += `<text x="${W - PAD + 4}" y="${waterY + 14}" fill="#4A9FD9" font-size="9" font-family="DM Sans, sans-serif" font-weight="600">LINE</text>`;
+  }
+
+  // Job markers
+  JOBS.forEach((job, idx) => {
+    const jx = PAD + job.x * (W - PAD * 2);
+    const jy = elevToY(job.elevation);
+    const sub = job.elevation <= waterLevel;
+    const col = SECTOR_COLORS[job.sector];
+    const anchor = jx > W * 0.7 ? 'end' : 'start';
+    const lx = jx + (jx > W * 0.7 ? -8 : 8);
+
+    // Glow
+    svg += `<circle cx="${jx}" cy="${jy}" r="6" fill="${col}" opacity="${sub ? 0.06 : 0.12}"/>`;
+    // Dot
+    svg += `<circle cx="${jx}" cy="${jy}" r="3.5" fill="${sub ? '#2A4A5A' : col}" stroke="${sub ? '#3A5A6A' : col}" stroke-width="1" opacity="${sub ? 0.45 : 1}" data-idx="${idx}" class="job-dot"/>`;
+
+    if (sub) {
+      svg += `<text x="${jx}" y="${jy + 1.5}" text-anchor="middle" dominant-baseline="middle" fill="#8AAABB" font-size="5" font-weight="bold">x</text>`;
+    }
+
+    // Labels
+    if (showLabels) {
+      svg += `<text x="${lx}" y="${jy - 10}" text-anchor="${anchor}" fill="${sub ? '#4A6A7A' : '#C8C0B4'}" font-size="8" font-family="DM Sans, sans-serif" opacity="${sub ? 0.5 : 0.85}" ${sub ? 'text-decoration="line-through"' : ''}>${job.name}</text>`;
+    }
+  });
+
+  svg += '</svg>';
+  document.getElementById('viz').querySelector('svg')?.remove();
+  document.getElementById('viz').insertAdjacentHTML('afterbegin', svg);
+
+  // Attach hover events
+  document.querySelectorAll('.job-dot').forEach(dot => {
+    dot.style.cursor = 'pointer';
+    dot.addEventListener('mouseenter', (e) => {
+      const idx = parseInt(dot.getAttribute('data-idx'));
+      const job = JOBS[idx];
+      const sub = job.elevation <= waterLevel;
+      const tt = document.getElementById('tooltip');
+      tt.querySelector('.tt-name').textContent = job.name;
+      tt.querySelector('.tt-sector').textContent = SECTOR_LABELS[job.sector];
+      tt.querySelector('.tt-sector').style.color = SECTOR_COLORS[job.sector];
+      tt.querySelector('.tt-elev').textContent = 'Elevation: ' + job.elevation;
+      tt.querySelector('.tt-status').textContent = sub ? 'DISPLACED' : 'Above water';
+      tt.querySelector('.tt-status').style.color = sub ? '#E07A5F' : '#81B29A';
+      tt.style.display = 'block';
+
+      const vizRect = document.getElementById('viz').getBoundingClientRect();
+      const dotRect = dot.getBoundingClientRect();
+      let left = dotRect.left - vizRect.left + 16;
+      let top = dotRect.top - vizRect.top - 60;
+      if (left + 200 > vizRect.width) left = left - 220;
+      if (top < 0) top = dotRect.top - vizRect.top + 16;
+      tt.style.left = left + 'px';
+      tt.style.top = top + 'px';
+
+      dot.setAttribute('r', '6');
+      dot.setAttribute('filter', sub ? '' : 'url(#glow)');
+    });
+    dot.addEventListener('mouseleave', () => {
+      document.getElementById('tooltip').style.display = 'none';
+      dot.setAttribute('r', '3.5');
+      dot.removeAttribute('filter');
+    });
+  });
+}
+
+// Legend
+const legendEl = document.getElementById('legend');
+Object.entries(SECTOR_LABELS).forEach(([key, label]) => {
+  legendEl.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${SECTOR_COLORS[key]}"></div>${label}</div>`;
+});
+
+// Slider
+document.getElementById('water-slider').addEventListener('input', (e) => {
+  waterLevel = Number(e.target.value);
+  render();
+});
+
+// Toggle
+document.getElementById('toggle-labels').addEventListener('click', () => {
+  showLabels = !showLabels;
+  document.getElementById('toggle-labels').textContent = showLabels ? 'Hide Labels' : 'Show Labels';
+  render();
+});
+
+// Initial render
+render();
+</script>
+</body>
+</html>
