@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Map and the Flood | AI Displacement Risk by Job Elevation</title>
-<meta name="description" content="Interactive terrain map showing which jobs sit on Everest and which are already on floodplains as AI and robotics reshape the labor market.">
+<meta name="description" content="Interactive terrain map showing which jobs sit on the summit and which are already on the floodplain as AI and robotics reshape the labor market.">
 <meta property="og:title" content="The Map and the Flood">
-<meta property="og:description" content="AI Displacement Risk by Job Elevation. Drag the slider to raise the water.">
+<meta property="og:description" content="AI Displacement Risk by Job Elevation. Drag to flood the market.">
 <meta property="og:type" content="website">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -14,271 +14,102 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #0B1622;
+    background: #070D16;
     color: #E8E4DC;
     font-family: 'EB Garamond', Georgia, serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 32px 20px;
-  }
+  .container { max-width: 1320px; margin: 0 auto; padding: 32px 20px; }
 
-  header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  header h1 {
-    font-size: 36px;
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    color: #F4F1DE;
-  }
-
+  header { text-align: center; margin-bottom: 28px; }
+  header h1 { font-size: 40px; font-weight: 400; letter-spacing: 0.02em; color: #F4F1DE; }
   header .subtitle {
-    font-size: 13px;
-    color: #8A9BB0;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-top: 8px;
+    font-size: 13px; color: #8A9BB0; font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px;
   }
 
-  .stats {
-    display: flex;
-    justify-content: center;
-    gap: 56px;
-    margin-bottom: 28px;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .stat-value {
-    font-size: 32px;
-    font-weight: 300;
-    text-align: center;
-  }
-
-  .stat-label {
-    font-size: 10px;
-    color: #6A7B8D;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    text-align: center;
-    margin-top: 2px;
-  }
+  .stats { display: flex; justify-content: center; gap: 56px; margin-bottom: 24px; font-family: 'DM Sans', sans-serif; }
+  .stat-value { font-size: 32px; font-weight: 300; text-align: center; }
+  .stat-label { font-size: 10px; color: #6A7B8D; text-transform: uppercase; letter-spacing: 0.12em; text-align: center; margin-top: 2px; }
 
   .viz-container {
-    position: relative;
-    background: #0D1B2A;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #1B2838;
+    position: relative; background: #070D16; border-radius: 10px;
+    overflow: hidden; border: 1px solid #1B2838;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
+  .viz-container svg { width: 100%; height: auto; display: block; }
 
-  .viz-container svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .slider-wrap {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 28px 20px;
-  }
-
+  .slider-wrap { max-width: 820px; margin: 0 auto; padding: 28px 20px; }
   .slider-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    color: #5A6A7A;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    display: flex; justify-content: space-between; margin-bottom: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 10px; color: #5A6A7A;
+    text-transform: uppercase; letter-spacing: 0.1em;
   }
+  .slider-labels .cta { color: #5AB0E6; font-weight: 600; }
 
   input[type="range"] {
-    width: 100%;
-    height: 8px;
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-    background: #2A3644;
+    width: 100%; height: 8px; -webkit-appearance: none; appearance: none;
+    border-radius: 4px; outline: none; cursor: pointer; background: #2A3644;
   }
-
   input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #4A9FD9;
-    border: 3px solid #0D1B2A;
-    cursor: pointer;
-    box-shadow: 0 0 12px rgba(74, 159, 217, 0.4);
+    -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+    border-radius: 50%; background: #5AB0E6; border: 3px solid #070D16;
+    cursor: pointer; box-shadow: 0 0 14px rgba(90, 176, 230, 0.5);
   }
-
   input[type="range"]::-moz-range-thumb {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #4A9FD9;
-    border: 3px solid #0D1B2A;
-    cursor: pointer;
-    box-shadow: 0 0 12px rgba(74, 159, 217, 0.4);
+    width: 22px; height: 22px; border-radius: 50%; background: #5AB0E6;
+    border: 3px solid #070D16; cursor: pointer; box-shadow: 0 0 14px rgba(90, 176, 230, 0.5);
   }
 
   .year-marks {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    color: #3A4A5A;
+    display: flex; justify-content: space-between; margin-top: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 11px; color: #3A4A5A;
   }
-
-  .year-marks span.active {
-    color: #4A9FD9;
-    font-weight: 600;
-  }
+  .year-marks span.active { color: #5AB0E6; font-weight: 600; }
 
   .legend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 18px;
-    padding: 20px 0;
-    border-top: 1px solid #1B2838;
-    margin-top: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: #8A9BB0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 18px;
+    padding: 20px 0; border-top: 1px solid #1B2838; margin-top: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; color: #8A9BB0;
   }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
 
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .legend-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-  }
-
-  .controls {
-    text-align: center;
-    padding: 12px 0;
-  }
-
+  .controls { text-align: center; padding: 12px 0; }
   .controls button {
-    background: none;
-    border: 1px solid #2A3644;
-    color: #6A7B8D;
-    padding: 7px 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
+    background: none; border: 1px solid #2A3644; color: #6A7B8D;
+    padding: 7px 18px; border-radius: 4px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.05em; transition: all 0.2s;
   }
+  .controls button:hover { border-color: #5AB0E6; color: #5AB0E6; }
 
-  .controls button:hover {
-    border-color: #4A9FD9;
-    color: #4A9FD9;
-  }
-
-  .footer-insight {
-    text-align: center;
-    padding: 28px 20px 12px;
-    border-top: 1px solid #1B2838;
-    margin-top: 8px;
-  }
-
-  .footer-insight blockquote {
-    font-size: 16px;
-    color: #C8C0B4;
-    font-style: italic;
-    max-width: 620px;
-    margin: 0 auto;
-    line-height: 1.7;
-  }
-
-  .footer-insight .note {
-    font-size: 11px;
-    color: #8A9BB0;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 0.04em;
-    margin-top: 18px;
-    line-height: 1.6;
-  }
-
-  .footer-insight .credit {
-    font-size: 11px;
-    color: #6A7B8D;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 0.04em;
-    margin-top: 24px;
-  }
-
-  .footer-insight .credit a {
-    color: #4A9FD9;
-    text-decoration: none;
-  }
+  .footer-insight { text-align: center; padding: 28px 20px 12px; border-top: 1px solid #1B2838; margin-top: 8px; }
+  .footer-insight blockquote { font-size: 16px; color: #C8C0B4; font-style: italic; max-width: 620px; margin: 0 auto; line-height: 1.7; }
+  .footer-insight .note { font-size: 11px; color: #8A9BB0; font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; margin-top: 18px; line-height: 1.6; }
+  .footer-insight .credit { font-size: 11px; color: #6A7B8D; font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; margin-top: 24px; }
+  .footer-insight .credit a { color: #5AB0E6; text-decoration: none; }
 
   .tooltip {
-    position: absolute;
-    background: #0D1B2A;
-    border: 1px solid #3A5A6A;
-    border-radius: 6px;
-    padding: 10px 14px;
-    pointer-events: none;
-    display: none;
-    z-index: 100;
-    font-family: 'DM Sans', sans-serif;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    min-width: 180px;
+    position: absolute; background: rgba(8, 16, 26, 0.96); border: 1px solid #3A5A6A;
+    border-radius: 8px; padding: 13px 16px; pointer-events: none; display: none; z-index: 100;
+    font-family: 'DM Sans', sans-serif; box-shadow: 0 6px 28px rgba(0,0,0,0.8);
+    width: 330px; max-width: calc(100vw - 40px); backdrop-filter: blur(4px);
   }
-
-  .tooltip .tt-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #FFFFFF;
-    margin-bottom: 4px;
-  }
-
-  .tooltip .tt-sector {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
-
-  .tooltip .tt-elev {
-    font-size: 11px;
-    color: #C8C0B4;
-  }
-
-  .tooltip .tt-status {
-    font-size: 11px;
-    font-weight: 600;
-    margin-top: 4px;
-  }
+  .tooltip .tt-name { font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 4px; }
+  .tooltip .tt-sector { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; font-weight: 600; }
+  .tooltip .tt-meta { font-size: 11px; color: #B8C8D4; margin-bottom: 8px; display: flex; gap: 12px; }
+  .tooltip .tt-status { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
+  .tooltip .tt-mechanism { font-size: 12px; color: #E0E4E8; line-height: 1.5; border-top: 1px solid #1F3340; padding-top: 8px; margin-top: 4px; }
+  .tooltip .tt-mechanism-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #6A8A9A; margin-bottom: 4px; font-weight: 600; }
 
   @media (max-width: 768px) {
     header h1 { font-size: 26px; }
     .stats { gap: 28px; }
     .stat-value { font-size: 24px; }
     .legend { gap: 12px; font-size: 10px; }
+    .tooltip { width: 260px; }
   }
 </style>
 </head>
@@ -291,33 +122,25 @@
   </header>
 
   <div class="stats">
-    <div>
-      <div class="stat-value" id="stat-year" style="color:#5B9BD5">~2026</div>
-      <div class="stat-label">Estimated Timeline</div>
-    </div>
-    <div>
-      <div class="stat-value" id="stat-submerged" style="color:#E07A5F">12/36</div>
-      <div class="stat-label">Jobs Submerged</div>
-    </div>
-    <div>
-      <div class="stat-value" id="stat-level" style="color:#81B29A">28%</div>
-      <div class="stat-label">Flood Level</div>
-    </div>
+    <div><div class="stat-value" id="stat-year" style="color:#5AB0E6">~2026</div><div class="stat-label">Estimated Timeline</div></div>
+    <div><div class="stat-value" id="stat-submerged" style="color:#E07A5F">12/38</div><div class="stat-label">Jobs Submerged</div></div>
+    <div><div class="stat-value" id="stat-level" style="color:#81B29A">28%</div><div class="stat-label">Flood Level</div></div>
   </div>
 
   <div class="viz-container" id="viz" style="position:relative">
     <div class="tooltip" id="tooltip">
       <div class="tt-name"></div>
       <div class="tt-sector"></div>
-      <div class="tt-elev"></div>
-      <div class="tt-status"></div>
+      <div class="tt-meta"><span class="tt-elev"></span><span class="tt-status"></span></div>
+      <div class="tt-mechanism-label">DISPLACEMENT MECHANISM</div>
+      <div class="tt-mechanism"></div>
     </div>
   </div>
 
   <div class="slider-wrap">
     <div class="slider-labels">
       <span>2023 Baseline</span>
-      <span>Drag to raise the water</span>
+      <span class="cta">Drag to flood the market</span>
       <span>2035+</span>
     </div>
     <input type="range" id="water-slider" min="0" max="98" value="28">
@@ -325,10 +148,7 @@
   </div>
 
   <div class="legend" id="legend"></div>
-
-  <div class="controls">
-    <button id="toggle-labels">Hide Labels</button>
-  </div>
+  <div class="controls"><button id="toggle-labels">Hide Labels</button></div>
 
   <div class="footer-insight">
     <blockquote>"The contour lines are accurate. They just stop mattering when the flood reaches a certain height."</blockquote>
@@ -337,63 +157,93 @@
       trust/accountability barriers, emotional depth, and regulatory friction.<br>
       The water keeps rising. There is no permanent high ground.
     </p>
-    <p class="credit">
-      James Benton | <a href="https://execlayer.com" target="_blank">ExecLayer Inc.</a>
-    </p>
+    <p class="credit">James Benton | <a href="https://execlayer.com" target="_blank">ExecLayer Inc.</a></p>
   </div>
 </div>
 
 <script>
 const JOBS = [
-  // Floodplain - spread wide across left portion
-  { name: "Toll Booth Operator", elevation: 3, sector: "physical", x: 0.05, labelSide: "right" },
-  { name: "Data Entry Clerk", elevation: 5, sector: "admin", x: 0.14, labelSide: "right" },
-  { name: "Telemarketer", elevation: 10, sector: "service", x: 0.08, labelSide: "left" },
-  { name: "Cashier", elevation: 12, sector: "service", x: 0.20, labelSide: "right" },
-  { name: "Assembly Line (Repetitive)", elevation: 14, sector: "physical", x: 0.12, labelSide: "left" },
+  { name: "Toll Booth Operator", elevation: 3, sector: "physical", x: 0.10, side: "right", above: true,
+    why: "Automated tolling (EZ-Pass, license plate readers) eliminated most of this role years ago. The remaining positions exist mostly for legacy enforcement and customer service edge cases." },
+  { name: "Data Entry Clerk", elevation: 5, sector: "admin", x: 0.27, side: "right", above: false,
+    why: "OCR plus LLMs extract structured and unstructured data from forms, invoices, and documents at near-zero marginal cost. Accuracy now exceeds human entry on most document types." },
+  { name: "Telemarketer", elevation: 10, sector: "service", x: 0.45, side: "right", above: true,
+    why: "Voice AI handles outbound calls with personalization that exceeds scripted human delivery. Cost per call has dropped below five cents." },
+  { name: "Cashier", elevation: 12, sector: "service", x: 0.63, side: "right", above: false,
+    why: "Self-checkout, computer vision stores (Amazon Go style), and mobile payment eliminate the transactional role. Remaining positions concentrate on theft prevention and assistance." },
+  { name: "Assembly Line (Repetitive)", elevation: 14, sector: "physical", x: 0.83, side: "left", above: true,
+    why: "Industrial robots have displaced repetitive assembly for decades. Vision-based quality control and adaptive grippers now handle variation that previously required humans." },
 
-  // Coastal - more horizontal spread
-  { name: "Content Moderator", elevation: 16, sector: "admin", x: 0.26, labelSide: "right" },
-  { name: "Warehouse Picker", elevation: 18, sector: "physical", x: 0.18, labelSide: "right" },
-  { name: "Long-Haul Truck Driver", elevation: 20, sector: "physical", x: 0.30, labelSide: "right" },
-  { name: "Fast Food Worker", elevation: 22, sector: "service", x: 0.22, labelSide: "left" },
-  { name: "Tax Preparer", elevation: 25, sector: "knowledge", x: 0.35, labelSide: "right" },
-  { name: "Junior Copywriter", elevation: 27, sector: "creative", x: 0.28, labelSide: "left" },
-  { name: "Basic Paralegal", elevation: 28, sector: "knowledge", x: 0.40, labelSide: "right" },
+  { name: "Content Moderator", elevation: 16, sector: "admin", x: 0.09, side: "right", above: false,
+    why: "Multimodal AI classifies text, image, and video against policy at scale with consistency human moderators cannot match. Edge cases still escalate, but volume is automated." },
+  { name: "Warehouse Picker", elevation: 18, sector: "physical", x: 0.22, side: "right", above: true,
+    why: "Symbotic, Boston Dynamics, and humanoid robots from Figure and Apptronik now handle picking, sorting, and pallet movement. RaaS pricing brings deployment below minimum wage." },
+  { name: "Long-Haul Truck Driver", elevation: 20, sector: "physical", x: 0.37, side: "right", above: false,
+    why: "Aurora and Kodiak are running commercial autonomous routes today. Highway driving is the easier autonomy problem. Regulatory rollout is the only remaining brake." },
+  { name: "Fast Food Worker", elevation: 22, sector: "service", x: 0.51, side: "right", above: true,
+    why: "Robotic kitchens (Miso, Chef Robotics), self-order kiosks, and AI drive-thru voice agents are deployed at major chains. Labor costs and turnover make the ROI obvious." },
+  { name: "Tax Preparer", elevation: 25, sector: "knowledge", x: 0.65, side: "right", above: false,
+    why: "AI agents handle increasingly complex returns. Storefront preparers face direct competition from free or low-cost AI tools that exceed their accuracy on standard filings." },
+  { name: "Junior Copywriter", elevation: 27, sector: "creative", x: 0.78, side: "right", above: true,
+    why: "GPT-class models produce ad copy, social posts, blog content, and email sequences at near-zero cost. Senior creative direction still wanted, junior production roles already shrinking." },
+  { name: "Basic Paralegal", elevation: 28, sector: "knowledge", x: 0.91, side: "left", above: false,
+    why: "Harvey, CoCounsel, and similar tools automate document review, legal research, contract analysis, and discovery. Firms are quietly slowing paralegal hiring." },
 
-  // Foothills - spread across middle with more breathing room
-  { name: "Real Estate Agent", elevation: 31, sector: "service", x: 0.34, labelSide: "left" },
-  { name: "Translator", elevation: 32, sector: "knowledge", x: 0.44, labelSide: "right" },
-  { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.38, labelSide: "left" },
-  { name: "Graphic Designer", elevation: 34, sector: "creative", x: 0.30, labelSide: "left" },
-  { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.50, labelSide: "right" },
-  { name: "Accountant", elevation: 36, sector: "knowledge", x: 0.42, labelSide: "left" },
-  { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.54, labelSide: "right" },
-  { name: "Journalist", elevation: 39, sector: "creative", x: 0.36, labelSide: "left" },
-  { name: "Pharmacist (Dispensing)", elevation: 40, sector: "knowledge", x: 0.48, labelSide: "left" },
-  { name: "Radiologist", elevation: 42, sector: "knowledge", x: 0.58, labelSide: "right" },
+  { name: "Real Estate Agent", elevation: 31, sector: "service", x: 0.09, side: "right", above: true,
+    why: "Zillow, Redfin, and AI-powered platforms handle more of search, valuation, and negotiation. MLS access barriers are eroding. Commission compression accelerates the trend." },
+  { name: "Translator", elevation: 32, sector: "knowledge", x: 0.21, side: "right", above: false,
+    why: "Neural machine translation crossed human parity for most language pairs. Real-time conversation translation is now consumer-grade. Specialized legal and literary work remains." },
+  { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.33, side: "right", above: true,
+    why: "Algorithmic underwriting using broader data sources reduces manual review to genuine edge cases. Routine policy decisions are now made in milliseconds." },
+  { name: "Graphic Designer", elevation: 34, sector: "creative", x: 0.45, side: "right", above: false,
+    why: "Midjourney, Adobe Firefly, and Figma AI handle most production design work. Senior creative direction and brand strategy remain human-led, junior production work does not." },
+  { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.57, side: "right", above: true,
+    why: "Claude Code, Cursor, and Devin complete tickets autonomously. Entry-level hiring at major firms is already shrinking. The traditional engineering pipeline is breaking." },
+  { name: "Accountant", elevation: 36, sector: "knowledge", x: 0.68, side: "right", above: false,
+    why: "AI handles books, reconciliation, and audit prep. CPA work concentrates on advisory and complex compliance. Bookkeeping as a profession is effectively over." },
+  { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.78, side: "left", above: true,
+    why: "Models build, screen, and report on portfolios autonomously. Buy-side junior analyst roles are shrinking fastest as workflows compress into prompt-driven research." },
+  { name: "Journalist", elevation: 39, sector: "creative", x: 0.87, side: "left", above: false,
+    why: "AI generates routine reporting on earnings, sports, and weather. Investigative work is harder to automate but newsroom budgets cut the easy roles first." },
+  { name: "Pharmacist (Dispensing)", elevation: 40, sector: "knowledge", x: 0.95, side: "left", above: true,
+    why: "Robotic dispensing is widespread in hospitals. Mail-order pharmacy is automated end-to-end. The clinical consultation role remains, but the dispensing function is gone." },
+  { name: "Radiologist", elevation: 43, sector: "knowledge", x: 0.50, side: "right", above: false,
+    why: "Over 870 FDA-approved AI radiology tools already deployed. Augmentation now, displacement of routine reads imminent. Specialty interventional work remains protected." },
 
-  // Mountain - well spaced
-  { name: "Management Consultant", elevation: 52, sector: "knowledge", x: 0.54, labelSide: "left" },
-  { name: "Senior Software Architect", elevation: 55, sector: "knowledge", x: 0.62, labelSide: "right" },
-  { name: "Nurse Practitioner", elevation: 56, sector: "service", x: 0.50, labelSide: "left" },
-  { name: "Film Director", elevation: 57, sector: "creative", x: 0.58, labelSide: "left" },
-  { name: "Skilled Trades (Plumber)", elevation: 58, sector: "physical", x: 0.46, labelSide: "left" },
-  { name: "Research Scientist", elevation: 60, sector: "knowledge", x: 0.66, labelSide: "right" },
-  { name: "Surgeon", elevation: 65, sector: "knowledge", x: 0.72, labelSide: "right" },
+  { name: "Management Consultant", elevation: 52, sector: "knowledge", x: 0.11, side: "right", above: true,
+    why: "AI handles analysis, slide generation, and research. Senior client relationship and strategic judgment retain value, but the leveraged junior pyramid that funded the model is collapsing." },
+  { name: "Senior Software Architect", elevation: 55, sector: "knowledge", x: 0.26, side: "right", above: false,
+    why: "AI generates code, but architecture decisions, security, and system design under uncertainty still require human judgment. Hardest hit when AI architects become trustworthy." },
+  { name: "Nurse Practitioner", elevation: 56, sector: "service", x: 0.41, side: "right", above: true,
+    why: "AI diagnostic support is strong, but physical exam, clinical judgment, and patient relationship are regulated to humans. Protected by licensure as much as capability." },
+  { name: "Film Director", elevation: 57, sector: "creative", x: 0.56, side: "right", above: false,
+    why: "Generative video models (Sora, Veo, Runway) producing scenes. Vision and creative direction still human-led, but supporting roles around the director are collapsing fast." },
+  { name: "Skilled Trades (Plumber)", elevation: 58, sector: "physical", x: 0.70, side: "left", above: true,
+    why: "Robotics in unstructured physical environments (cramped spaces, novel layouts) is still hard. Plumbing, electrical, and HVAC mostly safe near-term. Long-term: humanoid robots." },
+  { name: "Research Scientist", elevation: 61, sector: "knowledge", x: 0.83, side: "left", above: false,
+    why: "AI accelerates literature review, hypothesis generation, and analysis. Novel theoretical breakthroughs and physical experimentation still human-led, for now." },
+  { name: "Surgeon", elevation: 65, sector: "knowledge", x: 0.94, side: "left", above: true,
+    why: "Surgical robots assist precision tasks but full autonomy faces regulatory, liability, and edge-case barriers. Specialty surgical work remains among the most protected medical roles." },
 
-  // Alpine
-  { name: "Executive Leadership", elevation: 72, sector: "leadership", x: 0.70, labelSide: "left" },
-  { name: "Emergency First Responder", elevation: 73, sector: "physical", x: 0.64, labelSide: "left" },
-  { name: "Trial Lawyer", elevation: 75, sector: "knowledge", x: 0.78, labelSide: "right" },
-  { name: "Mental Health Therapist", elevation: 78, sector: "service", x: 0.68, labelSide: "left" },
-  { name: "Diplomatic Negotiator", elevation: 80, sector: "leadership", x: 0.82, labelSide: "right" },
+  { name: "Executive Leadership", elevation: 72, sector: "leadership", x: 0.15, side: "right", above: true,
+    why: "AI augments decision-making but accountability, stakeholder management, and judgment under genuine uncertainty are structurally protected. Boards do not delegate to algorithms." },
+  { name: "Emergency First Responder", elevation: 73, sector: "physical", x: 0.33, side: "right", above: false,
+    why: "Physical presence in chaotic, unstructured environments with life-or-death judgment is hard to automate. Drones and robotic assist exist, but the human is irreplaceable for now." },
+  { name: "Trial Lawyer", elevation: 76, sector: "knowledge", x: 0.51, side: "right", above: true,
+    why: "AI handles research and briefing, but courtroom advocacy, jury reading, and trial strategy remain human. Litigation requires presence and persuasion AI cannot replicate yet." },
+  { name: "Mental Health Therapist", elevation: 78, sector: "service", x: 0.69, side: "left", above: false,
+    why: "Therapeutic alliance requires authentic human connection. AI tools augment but cannot replace. Protected by licensure, clinical evidence, and the nature of the work itself." },
+  { name: "Diplomatic Negotiator", elevation: 81, sector: "leadership", x: 0.87, side: "left", above: true,
+    why: "High-stakes interpersonal negotiation with cultural and political nuance is among the last to automate. Trust, context, and human judgment cannot be delegated to algorithms." },
 
-  // Summit - spread along the peak
-  { name: "Crisis Negotiator", elevation: 88, sector: "leadership", x: 0.80, labelSide: "left" },
-  { name: "Federal Judge", elevation: 90, sector: "leadership", x: 0.88, labelSide: "right" },
-  { name: "Spiritual Leader", elevation: 92, sector: "leadership", x: 0.84, labelSide: "left" },
-  { name: "Head of State", elevation: 95, sector: "leadership", x: 0.92, labelSide: "right" },
+  { name: "Crisis Negotiator", elevation: 88, sector: "leadership", x: 0.22, side: "right", above: true,
+    why: "Real-time judgment in life-or-death emotional situations is at the frontier of automation difficulty. Hostage and suicide negotiation require human presence by definition." },
+  { name: "Federal Judge", elevation: 91, sector: "leadership", x: 0.45, side: "right", above: false,
+    why: "Constitutional authority, accountability, and case-by-case judgment cannot be delegated to AI under current law. Structurally protected, not capability-protected." },
+  { name: "Spiritual Leader", elevation: 93, sector: "leadership", x: 0.67, side: "right", above: true,
+    why: "Authenticity, community, and meaning-making are intrinsically human roles. No technical substitute exists or is conceivable within current religious traditions." },
+  { name: "Head of State", elevation: 96, sector: "leadership", x: 0.88, side: "left", above: false,
+    why: "Political legitimacy requires human accountability under all known governance systems. AI may advise but cannot govern. Last to fall, if ever." },
 ];
 
 const ZONES = [
@@ -406,63 +256,91 @@ const ZONES = [
 ];
 
 const SECTOR_COLORS = {
-  physical: "#E07A5F", service: "#81B29A", admin: "#F2CC8F",
-  knowledge: "#3D85C6", creative: "#C77DFF", leadership: "#F4F1DE"
+  physical: "#E8855F", service: "#7FC4A0", admin: "#F2CC8F",
+  knowledge: "#5AAEE6", creative: "#C77DFF", leadership: "#F4F1DE"
 };
-
 const SECTOR_LABELS = {
   physical: "Physical Labor", service: "Service", admin: "Administrative",
   knowledge: "Knowledge Work", creative: "Creative", leadership: "Leadership / Judgment"
 };
-
 const YEAR_MARKS = [
-  { year: 2023, level: 12 }, { year: 2024, level: 18 },
-  { year: 2026, level: 28 }, { year: 2028, level: 42 },
-  { year: 2030, level: 58 }, { year: 2032, level: 72 },
-  { year: 2035, level: 88 }
+  { year: 2023, level: 12 }, { year: 2024, level: 18 }, { year: 2026, level: 28 },
+  { year: 2028, level: 42 }, { year: 2030, level: 58 }, { year: 2032, level: 72 }, { year: 2035, level: 88 }
 ];
 
-const W = 1100, H = 750, PAD = 65;
+const W = 1320, H = 860;
+const PAD_TOP = 40, PAD_BOTTOM = 40;
+const PLOT_LEFT = 165, PLOT_RIGHT = W - 70;
+const PLOT_WIDTH = PLOT_RIGHT - PLOT_LEFT;
+
 let waterLevel = 28;
 let showLabels = true;
 
-function elevToY(elev) {
-  return PAD + (H - PAD * 2) * (1 - elev / 100);
+function elevToY(e) { return PAD_TOP + (H - PAD_TOP - PAD_BOTTOM) * (1 - e / 100); }
+function jobX(t) { return PLOT_LEFT + t * PLOT_WIDTH; }
+
+// Seeded RNG so mountains are generated once and stay stable
+function mulberry32(a) {
+  return function() {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
 }
 
-function terrainElev(t) {
-  const base = Math.pow(t, 0.6) * 0.85;
-  const r1 = Math.sin(t * Math.PI * 3) * 0.04;
-  const r2 = Math.sin(t * Math.PI * 7) * 0.015;
-  const r3 = Math.sin(t * Math.PI * 13) * 0.008;
-  return Math.min(1, base + r1 + r2 + r3);
-}
-
-function buildTerrainPath() {
-  let d = `M ${PAD} ${H - PAD} `;
-  for (let i = 0; i <= 200; i++) {
-    const t = i / 200;
-    const x = PAD + t * (W - PAD * 2);
-    const y = elevToY(terrainElev(t) * 100);
-    d += `L ${x} ${y} `;
+// Generate a jagged ridgeline via midpoint displacement (fractal). Returns array of {x, e}.
+function genRidge(seed, baseElev, peakElev, roughness, pts) {
+  const rng = mulberry32(seed);
+  let arr = [{ t: 0, e: baseElev }, { t: 1, e: baseElev }];
+  // Insert a central peak
+  arr.splice(1, 0, { t: 0.45 + rng() * 0.15, e: peakElev });
+  for (let iter = 0; iter < pts; iter++) {
+    const next = [];
+    for (let i = 0; i < arr.length - 1; i++) {
+      next.push(arr[i]);
+      const mt = (arr[i].t + arr[i + 1].t) / 2;
+      const me = (arr[i].e + arr[i + 1].e) / 2 + (rng() - 0.5) * roughness * (1 - iter / pts);
+      next.push({ t: mt, e: Math.max(0, me) });
+    }
+    next.push(arr[arr.length - 1]);
+    arr = next.sort((a, b) => a.t - b.t);
   }
-  d += `L ${W - PAD} ${H - PAD} Z`;
+  return arr;
+}
+
+// Pre-generate ranges ONCE (stable across re-renders)
+const RANGE_BACK = genRidge(7, 38, 72, 30, 5);
+const RANGE_MID = genRidge(23, 28, 80, 38, 6);
+const RANGE_FRONT = genRidge(91, 8, 100, 30, 7);
+
+function ridgePath(ridge, fillToBottom) {
+  let d = `M ${PLOT_LEFT} ${H - PAD_BOTTOM} `;
+  ridge.forEach(p => { d += `L ${jobX(p.t)} ${elevToY(p.e)} `; });
+  d += `L ${PLOT_RIGHT} ${H - PAD_BOTTOM} Z`;
   return d;
 }
 
-function buildSnowPath() {
-  const startT = 0.7;
-  let pts = [];
-  for (let i = 0; i <= 60; i++) {
-    const t = startT + (i / 60) * (1 - startT);
-    const x = PAD + t * (W - PAD * 2);
-    const y = elevToY(terrainElev(t) * 100);
-    pts.push({ x, y });
-  }
-  const snowLine = elevToY(78);
-  let d = `M ${pts[0].x} ${snowLine} `;
-  pts.forEach(p => { d += `L ${p.x} ${Math.min(p.y, snowLine)} `; });
-  d += `L ${pts[pts.length - 1].x} ${snowLine} Z`;
+// Snow caps: trace the front ridge but only where elevation > snowline
+function snowPath(ridge, snowline) {
+  let segs = [];
+  let cur = null;
+  ridge.forEach(p => {
+    if (p.e >= snowline) {
+      if (!cur) cur = [];
+      cur.push(p);
+    } else {
+      if (cur && cur.length > 1) segs.push(cur);
+      cur = null;
+    }
+  });
+  if (cur && cur.length > 1) segs.push(cur);
+  let d = "";
+  segs.forEach(seg => {
+    d += `M ${jobX(seg[0].t)} ${elevToY(snowline)} `;
+    seg.forEach(p => { d += `L ${jobX(p.t)} ${elevToY(p.e)} `; });
+    d += `L ${jobX(seg[seg.length-1].t)} ${elevToY(snowline)} Z `;
+  });
   return d;
 }
 
@@ -478,107 +356,172 @@ function render() {
   document.getElementById('stat-submerged').textContent = subCount + '/' + JOBS.length;
   document.getElementById('stat-level').textContent = Math.round(waterLevel) + '%';
 
-  const ymHtml = YEAR_MARKS.map(m =>
-    `<span class="${waterLevel >= m.level ? 'active' : ''}">${m.year}</span>`
-  ).join('');
-  document.getElementById('year-marks').innerHTML = ymHtml;
+  document.getElementById('year-marks').innerHTML =
+    YEAR_MARKS.map(m => `<span class="${waterLevel >= m.level ? 'active' : ''}">${m.year}</span>`).join('');
 
-  const slider = document.getElementById('water-slider');
   const pct = (waterLevel / 98) * 100;
-  slider.style.background = `linear-gradient(to right, #1B4F72 0%, #4A9FD9 ${pct}%, #2A3644 ${pct}%, #2A3644 100%)`;
+  document.getElementById('water-slider').style.background =
+    `linear-gradient(to right, #1B4F72 0%, #5AB0E6 ${pct}%, #2A3644 ${pct}%, #2A3644 100%)`;
 
   let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
 
   svg += `<defs>
-    <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#8B7355"/>
-      <stop offset="30%" stop-color="#6B5B45"/>
-      <stop offset="60%" stop-color="#4A4035"/>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0E1A30"/>
+      <stop offset="45%" stop-color="#1B2C47"/>
+      <stop offset="78%" stop-color="#33445E"/>
+      <stop offset="100%" stop-color="#4A5468"/>
+    </linearGradient>
+    <linearGradient id="rback" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#52647F"/><stop offset="100%" stop-color="#3E4E66"/>
+    </linearGradient>
+    <linearGradient id="rmid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3C4A60"/><stop offset="100%" stop-color="#2C3848"/>
+    </linearGradient>
+    <linearGradient id="rfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A3A3E"/>
+      <stop offset="50%" stop-color="#4A4138"/>
       <stop offset="100%" stop-color="#2A2520"/>
     </linearGradient>
-    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1B4F72" stop-opacity="0.85"/>
-      <stop offset="100%" stop-color="#0B2E4A" stop-opacity="0.95"/>
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4F8FC"/><stop offset="100%" stop-color="#C0CEDC" stop-opacity="0.85"/>
     </linearGradient>
-    <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F0EDE6" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#D5CFC5" stop-opacity="0.4"/>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A86B8" stop-opacity="0.78"/>
+      <stop offset="35%" stop-color="#1E5C86" stop-opacity="0.88"/>
+      <stop offset="100%" stop-color="#0A2236" stop-opacity="0.96"/>
     </linearGradient>
-    <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <linearGradient id="reflect" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="haze" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3"/>
     </filter>
-    <filter id="textshadow">
-      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#000000" flood-opacity="0.8"/>
-    </filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="tsh"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#000000" flood-opacity="0.98"/></filter>
+    <clipPath id="plotClip"><rect x="${PLOT_LEFT}" y="0" width="${PLOT_WIDTH}" height="${H}"/></clipPath>
   </defs>`;
 
-  svg += `<rect width="${W}" height="${H}" fill="#0D1B2A"/>`;
+  // Full background
+  svg += `<rect width="${W}" height="${H}" fill="#070D16"/>`;
 
-  // Zone lines and labels
-  ZONES.forEach((z, i) => {
-    const topY = elevToY(z.max);
-    const botY = i === 0 ? H - PAD : elevToY(ZONES[i - 1].max);
-    const midY = (topY + botY) / 2;
-    const sub = z.max <= waterLevel;
-    svg += `<line x1="${PAD}" y1="${topY}" x2="${W - PAD}" y2="${topY}" stroke="${sub ? '#1B4F72' : '#2A3644'}" stroke-width="0.5" stroke-dasharray="4,8" opacity="0.5"/>`;
-    svg += `<text x="${PAD - 6}" y="${midY - 6}" text-anchor="end" fill="${sub ? '#5A8AAA' : '#8A9BB0'}" font-size="10" font-family="DM Sans, sans-serif" font-weight="600" letter-spacing="0.12em">${z.name}</text>`;
-    svg += `<text x="${PAD - 6}" y="${midY + 8}" text-anchor="end" fill="${sub ? '#4A7A9A' : '#6A7B8D'}" font-size="8" font-family="DM Sans, sans-serif" font-style="italic">${z.sub}</text>`;
-  });
+  // ===== SCENE (clipped to plot area) =====
+  svg += `<g clip-path="url(#plotClip)">`;
 
-  // Terrain
-  svg += `<path d="${buildTerrainPath()}" fill="url(#tg)"/>`;
-  svg += `<path d="${buildSnowPath()}" fill="url(#sg)"/>`;
+  // Sky
+  svg += `<rect x="${PLOT_LEFT}" y="0" width="${PLOT_WIDTH}" height="${H}" fill="url(#sky)"/>`;
 
-  // Water
-  if (waterY < H - PAD) {
-    svg += `<rect x="${PAD}" y="${waterY}" width="${W - PAD * 2}" height="${H - PAD - waterY}" fill="url(#wg)"/>`;
-    svg += `<line x1="${PAD}" y1="${waterY}" x2="${W - PAD}" y2="${waterY}" stroke="#4A9FD9" stroke-width="2" opacity="0.8"/>`;
-    for (let i = 0; i < 12; i++) {
-      const cx = PAD + 20 + i * ((W - PAD * 2 - 40) / 11);
-      svg += `<circle cx="${cx}" cy="${waterY}" r="1.5" fill="#6AB8E6" opacity="0.4"/>`;
-    }
-    svg += `<text x="${W - PAD + 6}" y="${waterY + 5}" fill="#6AB8E6" font-size="10" font-family="DM Sans, sans-serif" font-weight="600">WATER</text>`;
-    svg += `<text x="${W - PAD + 6}" y="${waterY + 16}" fill="#6AB8E6" font-size="10" font-family="DM Sans, sans-serif" font-weight="600">LINE</text>`;
+  // Stars (subtle, upper area)
+  const starRng = mulberry32(555);
+  for (let i = 0; i < 50; i++) {
+    const sx = PLOT_LEFT + starRng() * PLOT_WIDTH;
+    const sy = PAD_TOP + starRng() * (H * 0.4);
+    const sr = starRng() * 0.9 + 0.2;
+    svg += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="${sr.toFixed(2)}" fill="#DCE6F0" opacity="${(starRng()*0.5+0.2).toFixed(2)}"/>`;
   }
 
-  // Job markers
+  // Mountain ranges (back to front, atmospheric perspective)
+  svg += `<path d="${ridgePath(RANGE_BACK)}" fill="url(#rback)" filter="url(#haze)" opacity="0.75"/>`;
+  svg += `<path d="${ridgePath(RANGE_MID)}" fill="url(#rmid)" opacity="0.92"/>`;
+  svg += `<path d="${ridgePath(RANGE_FRONT)}" fill="url(#rfront)"/>`;
+  // Snow caps on the front range
+  svg += `<path d="${snowPath(RANGE_FRONT, 70)}" fill="url(#snow)"/>`;
+  // A few snow streaks on mid range peaks
+  svg += `<path d="${snowPath(RANGE_MID, 74)}" fill="#D8E2EC" opacity="0.5"/>`;
+
+  // ===== WATER =====
+  if (waterY < H - PAD_BOTTOM) {
+    const wTop = waterY;
+    // Mountain reflection (flipped front ridge), faint, only just below the surface
+    let refl = `M ${PLOT_LEFT} ${wTop} `;
+    RANGE_FRONT.forEach(p => {
+      const reflE = waterLevel - (p.e - waterLevel); // mirror across waterline
+      const ry = elevToY(reflE);
+      refl += `L ${jobX(p.t)} ${Math.max(wTop, ry)} `;
+    });
+    refl += `L ${PLOT_RIGHT} ${wTop} Z`;
+    svg += `<path d="${refl}" fill="url(#rfront)" opacity="0.18" transform="scale(1,1)"/>`;
+
+    // Water body
+    svg += `<rect x="${PLOT_LEFT}" y="${wTop}" width="${PLOT_WIDTH}" height="${H - PAD_BOTTOM - wTop}" fill="url(#water)"/>`;
+    // Sheen band near surface
+    svg += `<rect x="${PLOT_LEFT}" y="${wTop}" width="${PLOT_WIDTH}" height="40" fill="url(#reflect)"/>`;
+
+    // Animated wave layers near the surface
+    const waveDur1 = "7s", waveDur2 = "11s";
+    function wavePath(amp, yOff, wl) {
+      let d = `M ${PLOT_LEFT - 100} ${wTop + yOff} `;
+      for (let x = PLOT_LEFT - 100; x <= PLOT_RIGHT + 100; x += wl) {
+        d += `q ${wl/2} ${-amp} ${wl} 0 `;
+      }
+      return d;
+    }
+    svg += `<path d="${wavePath(4, 6, 70)}" fill="none" stroke="#7FCDEE" stroke-width="1.5" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="-70 0" dur="${waveDur1}" repeatCount="indefinite"/></path>`;
+    svg += `<path d="${wavePath(3, 16, 90)}" fill="none" stroke="#A8DCF4" stroke-width="1" opacity="0.22">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="-90 0" dur="${waveDur2}" repeatCount="indefinite"/></path>`;
+
+    // Foam line at the surface
+    svg += `<line x1="${PLOT_LEFT}" y1="${wTop}" x2="${PLOT_RIGHT}" y2="${wTop}" stroke="#BFE8FA" stroke-width="2" opacity="0.85"/>`;
+    // Foam bubbles
+    const foamRng = mulberry32(Math.round(waterLevel * 13));
+    for (let i = 0; i < 18; i++) {
+      const fx = PLOT_LEFT + foamRng() * PLOT_WIDTH;
+      svg += `<circle cx="${fx.toFixed(1)}" cy="${(wTop + foamRng()*3).toFixed(1)}" r="${(foamRng()*1.4+0.4).toFixed(2)}" fill="#DFF2FB" opacity="${(foamRng()*0.5+0.3).toFixed(2)}"/>`;
+    }
+  }
+
+  svg += `</g>`; // end scene clip
+
+  // ===== ZONE LABELS (left gutter, inside canvas, never clipped) =====
+  ZONES.forEach((z, i) => {
+    const topY = elevToY(z.max);
+    const botY = i === 0 ? H - PAD_BOTTOM : elevToY(ZONES[i - 1].max);
+    const midY = (topY + botY) / 2;
+    const sub = z.max <= waterLevel;
+    svg += `<line x1="${PLOT_LEFT}" y1="${topY}" x2="${PLOT_RIGHT}" y2="${topY}" stroke="${sub ? '#3A6A8A' : '#46566A'}" stroke-width="0.5" stroke-dasharray="3,9" opacity="0.4"/>`;
+    svg += `<text x="26" y="${midY - 4}" text-anchor="start" fill="${sub ? '#8AC0E0' : '#EDEAE2'}" font-size="13" font-family="DM Sans, sans-serif" font-weight="700" letter-spacing="0.16em">${z.name}</text>`;
+    svg += `<text x="26" y="${midY + 13}" text-anchor="start" fill="${sub ? '#6FA4C4' : '#9AAABA'}" font-size="9.5" font-family="DM Sans, sans-serif" font-style="italic">${z.sub}</text>`;
+  });
+  svg += `<line x1="${PLOT_LEFT}" y1="${PAD_TOP}" x2="${PLOT_LEFT}" y2="${H - PAD_BOTTOM}" stroke="#26384A" stroke-width="1"/>`;
+
+  // ===== JOB LABELS (pointer-events none so they never block clicks) =====
+  if (showLabels) {
+    JOBS.forEach((job) => {
+      const jx = jobX(job.x), jy = elevToY(job.elevation);
+      const sub = job.elevation <= waterLevel;
+      const goLeft = job.side === "left";
+      const lx = jx + (goLeft ? -11 : 11);
+      const ly = job.above ? jy - 11 : jy + 18;
+      const fill = sub ? '#AEC2D2' : '#FFFFFF';
+      const op = sub ? 0.8 : 0.99;
+      svg += `<text x="${lx}" y="${ly}" text-anchor="${goLeft ? 'end' : 'start'}" fill="${fill}" font-size="11.5" font-family="DM Sans, sans-serif" font-weight="500" opacity="${op}" filter="url(#tsh)" style="pointer-events:none" ${sub ? 'text-decoration="line-through"' : ''}>${job.name}</text>`;
+    });
+  }
+
+  // ===== JOB DOTS (rendered LAST, on top, clickable) =====
   JOBS.forEach((job, idx) => {
-    const jx = PAD + job.x * (W - PAD * 2);
-    const jy = elevToY(job.elevation);
+    const jx = jobX(job.x), jy = elevToY(job.elevation);
     const sub = job.elevation <= waterLevel;
     const col = SECTOR_COLORS[job.sector];
-
-    // Use per-job labelSide for anchor direction
-    const goLeft = job.labelSide === "left";
-    const anchor = goLeft ? "end" : "start";
-    const lx = jx + (goLeft ? -10 : 10);
-
-    // Outer glow
-    svg += `<circle cx="${jx}" cy="${jy}" r="8" fill="${col}" opacity="${sub ? 0.05 : 0.15}"/>`;
-    // Dot
-    svg += `<circle cx="${jx}" cy="${jy}" r="4.5" fill="${sub ? '#2A4A5A' : col}" stroke="${sub ? '#4A6A7A' : col}" stroke-width="1.5" opacity="${sub ? 0.4 : 1}" data-idx="${idx}" class="job-dot"/>`;
-
-    if (sub) {
-      svg += `<text x="${jx}" y="${jy + 1.5}" text-anchor="middle" dominant-baseline="middle" fill="#8AAABB" font-size="6" font-weight="bold">x</text>`;
-    }
-
-    // Labels - WHITE text, bigger font, with text shadow for contrast
-    if (showLabels) {
-      const fillColor = sub ? '#7A9AAA' : '#FFFFFF';
-      const opacity = sub ? 0.6 : 0.95;
-      svg += `<text x="${lx}" y="${jy - 12}" text-anchor="${anchor}" fill="${fillColor}" font-size="10.5" font-family="DM Sans, sans-serif" font-weight="500" opacity="${opacity}" filter="url(#textshadow)" ${sub ? 'text-decoration="line-through"' : ''}>${job.name}</text>`;
-    }
+    svg += `<circle cx="${jx}" cy="${jy}" r="10" fill="${col}" opacity="${sub ? 0.05 : 0.16}" style="pointer-events:none"/>`;
+    svg += `<circle cx="${jx}" cy="${jy}" r="5.5" fill="${sub ? '#3A5A6A' : col}" stroke="${sub ? '#7AA0B4' : '#FFFFFF'}" stroke-width="${sub ? 1.5 : 1}" opacity="${sub ? 0.7 : 1}" style="pointer-events:none"/>`;
+    if (sub) svg += `<text x="${jx}" y="${jy + 1.5}" text-anchor="middle" dominant-baseline="middle" fill="#0A1622" font-size="7" font-weight="bold" style="pointer-events:none">x</text>`;
+    // Invisible generous hit target on top
+    svg += `<circle cx="${jx}" cy="${jy}" r="14" fill="transparent" data-idx="${idx}" class="job-hit" style="cursor:pointer"/>`;
   });
 
   svg += '</svg>';
-  document.getElementById('viz').querySelector('svg')?.remove();
-  document.getElementById('viz').insertAdjacentHTML('afterbegin', svg);
+  const viz = document.getElementById('viz');
+  viz.querySelector('svg')?.remove();
+  viz.insertAdjacentHTML('afterbegin', svg);
 
-  // Hover events
-  document.querySelectorAll('.job-dot').forEach(dot => {
-    dot.style.cursor = 'pointer';
-    dot.addEventListener('mouseenter', (e) => {
-      const idx = parseInt(dot.getAttribute('data-idx'));
+  // Attach hover/click to hit targets
+  viz.querySelectorAll('.job-hit').forEach(hit => {
+    const show = () => {
+      const idx = parseInt(hit.getAttribute('data-idx'));
       const job = JOBS[idx];
       const sub = job.elevation <= waterLevel;
       const tt = document.getElementById('tooltip');
@@ -586,43 +529,36 @@ function render() {
       tt.querySelector('.tt-sector').textContent = SECTOR_LABELS[job.sector];
       tt.querySelector('.tt-sector').style.color = SECTOR_COLORS[job.sector];
       tt.querySelector('.tt-elev').textContent = 'Elevation: ' + job.elevation;
-      tt.querySelector('.tt-status').textContent = sub ? 'DISPLACED' : 'Above water';
-      tt.querySelector('.tt-status').style.color = sub ? '#E07A5F' : '#81B29A';
+      const st = tt.querySelector('.tt-status');
+      st.textContent = sub ? 'DISPLACED' : 'ABOVE WATER';
+      st.style.color = sub ? '#E8855F' : '#7FC4A0';
+      tt.querySelector('.tt-mechanism').textContent = job.why;
+      tt.querySelector('.tt-mechanism-label').textContent = sub ? 'HOW IT HAPPENED' : 'HOW IT WILL HAPPEN';
       tt.style.display = 'block';
-
-      const vizRect = document.getElementById('viz').getBoundingClientRect();
-      const dotRect = dot.getBoundingClientRect();
-      let left = dotRect.left - vizRect.left + 16;
-      let top = dotRect.top - vizRect.top - 70;
-      if (left + 200 > vizRect.width) left = left - 220;
-      if (top < 0) top = dotRect.top - vizRect.top + 16;
+      const vr = viz.getBoundingClientRect();
+      const hr = hit.getBoundingClientRect();
+      let left = hr.left - vr.left + 18;
+      let top = hr.top - vr.top - 10;
+      if (left + 350 > vr.width) left = hr.left - vr.left - 350;
+      if (left < 10) left = 10;
+      if (top + 250 > vr.height) top = vr.height - 260;
+      if (top < 10) top = 10;
       tt.style.left = left + 'px';
       tt.style.top = top + 'px';
-
-      dot.setAttribute('r', '7');
-      dot.setAttribute('filter', sub ? '' : 'url(#glow)');
-    });
-    dot.addEventListener('mouseleave', () => {
-      document.getElementById('tooltip').style.display = 'none';
-      dot.setAttribute('r', '4.5');
-      dot.removeAttribute('filter');
-    });
+    };
+    const hide = () => { document.getElementById('tooltip').style.display = 'none'; };
+    hit.addEventListener('mouseenter', show);
+    hit.addEventListener('mouseleave', hide);
+    hit.addEventListener('click', show);   // tap support on touch devices
   });
 }
 
-// Legend
 const legendEl = document.getElementById('legend');
-Object.entries(SECTOR_LABELS).forEach(([key, label]) => {
-  legendEl.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${SECTOR_COLORS[key]}"></div>${label}</div>`;
+Object.entries(SECTOR_LABELS).forEach(([k, l]) => {
+  legendEl.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${SECTOR_COLORS[k]}"></div>${l}</div>`;
 });
 
-// Slider
-document.getElementById('water-slider').addEventListener('input', (e) => {
-  waterLevel = Number(e.target.value);
-  render();
-});
-
-// Toggle
+document.getElementById('water-slider').addEventListener('input', e => { waterLevel = Number(e.target.value); render(); });
 document.getElementById('toggle-labels').addEventListener('click', () => {
   showLabels = !showLabels;
   document.getElementById('toggle-labels').textContent = showLabels ? 'Hide Labels' : 'Show Labels';
