@@ -242,7 +242,7 @@
   <div class="footer-insight">
     <blockquote>"The water keeps rising. Over a long enough horizon, every score goes to zero."</blockquote>
     <a class="maplink" href="https://bmc-inc.github.io/flood-map/" target="_blank">See the full map &rarr;</a>
-    <p class="credit">James Benton | <a href="https://execlayer.com" target="_blank">ExecLayer Inc.</a></p>
+    <p class="credit">James Benton | <a href="https://www.execlayer.io" target="_blank">ExecLayer Inc.</a></p>
   </div>
 </div>
 
@@ -406,7 +406,8 @@ function buildDropdown(filter) {
   });
 }
 
-search.addEventListener('focus', () => { buildDropdown(search.value); dropdown.classList.add('open'); });
+search.addEventListener('focus', () => { buildDropdown(''); dropdown.classList.add('open'); search.select(); });
+search.addEventListener('click', () => { if (!dropdown.classList.contains('open')) { buildDropdown(''); dropdown.classList.add('open'); search.select(); } });
 search.addEventListener('input', () => { buildDropdown(search.value); dropdown.classList.add('open'); });
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.search-wrap')) dropdown.classList.remove('open');
@@ -636,7 +637,7 @@ function drawShareCard() {
   ctx.fillText('The Map and the Flood', cx, 985);
   ctx.fillStyle = '#5A6A7A';
   ctx.font = '400 18px "DM Sans", sans-serif';
-  ctx.fillText('execlayer.com', cx, 1015);
+  ctx.fillText('execlayer.io', cx, 1015);
 
   return cv;
 }
