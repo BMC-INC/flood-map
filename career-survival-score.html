@@ -6,7 +6,7 @@
 <title>Career Scenario Explorer | Explore Automation Assumptions</title>
 <meta name="description" content="Pick a role and explore an illustrative automation scenario. Scores reflect editorial assumptions, not measured survival probabilities.">
 <meta property="og:title" content="Career Scenario Explorer">
-<meta property="og:description" content="Explore one possible automation scenario Pick your role and set the clock.">
+<meta property="og:description" content="Explore one possible automation scenario. Pick your role and set the clock.">
 <meta property="og:type" content="website">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');
@@ -401,6 +401,7 @@ function buildDropdown(filter) {
       const name = el.getAttribute('data-name');
       selectedJob = JOBS.find(j => j.name === name);
       search.value = name;
+      search.focus();
       dropdown.classList.remove('open');
       update();
     });
