@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Map and the Flood | AI Displacement Risk by Job Elevation</title>
-<meta name="description" content="Interactive terrain map showing which jobs sit on the summit and which are already on the floodplain as AI and robotics reshape the labor market.">
+<title>The Map and the Flood | AI Automation Scenario Explorer</title>
+<meta name="description" content="Explore an illustrative automation scenario across 38 roles. Editorial assumptions, not a measured labor-market forecast.">
 <meta property="og:title" content="The Map and the Flood">
-<meta property="og:description" content="AI Displacement Risk by Job Elevation. Drag to flood the market.">
+<meta property="og:description" content="AI Automation Scenario Explorer. Drag to flood the market.">
 <meta property="og:type" content="website">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -118,13 +118,14 @@
 <div class="container">
   <header>
     <h1>The Map and the Flood</h1>
-    <p class="subtitle">AI Displacement Risk by Job Elevation</p>
+    <p class="subtitle">AI Automation Scenario Explorer</p>
+    <p style="max-width:720px;margin:18px auto 0;color:#B8C8D4;font-size:14px;line-height:1.6">Illustrative scenario, not a labor-market forecast. Job elevations and dates are editorial assumptions; scores are not measured probabilities. <a href="https://github.com/BMC-INC/flood-map#model-and-limitations" style="color:#7FC4A0">Read the model</a>.</p>
   </header>
 
   <div class="stats">
-    <div><div class="stat-value" id="stat-year" style="color:#5AB0E6">~2026</div><div class="stat-label">Estimated Timeline</div></div>
-    <div><div class="stat-value" id="stat-submerged" style="color:#E07A5F">12/38</div><div class="stat-label">Jobs Submerged</div></div>
-    <div><div class="stat-value" id="stat-level" style="color:#81B29A">28%</div><div class="stat-label">Flood Level</div></div>
+    <div><div class="stat-value" id="stat-year" style="color:#5AB0E6">~2026</div><div class="stat-label">Scenario Year</div></div>
+    <div><div class="stat-value" id="stat-submerged" style="color:#E07A5F">12/38</div><div class="stat-label">Roles Below Scenario Level</div></div>
+    <div><div class="stat-value" id="stat-level" style="color:#81B29A">28%</div><div class="stat-label">Scenario Level</div></div>
   </div>
 
   <div class="viz-container" id="viz" style="position:relative">
@@ -141,9 +142,9 @@
     <div class="slider-labels">
       <span>2023 Baseline</span>
       <span class="cta">Drag to flood the market</span>
-      <span>2035+</span>
+      <span>2060</span>
     </div>
-    <input type="range" id="water-slider" min="0" max="128" value="28">
+    <input type="range" aria-label="Automation scenario level" id="water-slider" min="0" max="128" value="28">
     <div class="year-marks" id="year-marks"></div>
   </div>
 
@@ -151,99 +152,99 @@
   <div class="controls"><button id="toggle-labels">Hide Labels</button></div>
 
   <div class="footer-insight">
-    <blockquote>"The contour lines are accurate. They just stop mattering when the flood reaches a certain height."</blockquote>
+    <blockquote>"Explore how different assumptions change the view of work."</blockquote>
     <p class="note">
       Elevation is determined by task dimensionality, physical dexterity requirements,
       trust/accountability barriers, emotional depth, and regulatory friction.<br>
-      The water keeps rising. There is no permanent high ground.
+      The scenario illustrates one set of assumptions, not an inevitable outcome. <a href="./career-survival-score.html" style="color:#7FC4A0">Explore a role score &rarr;</a>
     </p>
-    <p class="credit">James Benton | <a href="https://www.execlayer.io" target="_blank">ExecLayer Inc.</a></p>
+    <p class="credit">James Benton | <a href="https://execlayer.net" target="_blank" rel="noopener noreferrer">ExecLayer Inc.</a></p>
   </div>
 </div>
 
 <script>
 const JOBS = [
   { name: "Toll Booth Operator", elevation: 3, sector: "physical", x: 0.10, side: "right", above: true,
-    why: "Automated tolling (EZ-Pass, license plate readers) eliminated most of this role years ago. The remaining positions exist mostly for legacy enforcement and customer service edge cases." },
+    why: "Routine toll collection is treated as highly automatable in this scenario; assistance and exception handling can remain human tasks." },
   { name: "Data Entry Clerk", elevation: 5, sector: "admin", x: 0.27, side: "right", above: false,
-    why: "OCR plus LLMs extract structured and unstructured data from forms, invoices, and documents at near-zero marginal cost. Accuracy now exceeds human entry on most document types." },
+    why: "The scenario assigns low resistance to repetitive document entry; accuracy, review requirements, and unusual documents affect actual adoption." },
   { name: "Telemarketer", elevation: 10, sector: "service", x: 0.45, side: "right", above: true,
-    why: "Voice AI handles outbound calls with personalization that exceeds scripted human delivery. Cost per call has dropped below five cents." },
+    why: "Scripted outbound calls are treated as exposed to voice automation; consent, trust, and complex conversations can constrain use." },
   { name: "Cashier", elevation: 12, sector: "service", x: 0.63, side: "right", above: false,
-    why: "Self-checkout, computer vision stores (Amazon Go style), and mobile payment eliminate the transactional role. Remaining positions concentrate on theft prevention and assistance." },
+    why: "Transaction processing is treated as exposed to automation; customer assistance, accessibility, and loss prevention can require people." },
   { name: "Assembly Line (Repetitive)", elevation: 14, sector: "physical", x: 0.83, side: "left", above: true,
-    why: "Industrial robots have displaced repetitive assembly for decades. Vision-based quality control and adaptive grippers now handle variation that previously required humans." },
+    why: "Repetitive assembly receives a low elevation; variable materials, integration costs, and safety requirements can slow automation." },
 
   { name: "Content Moderator", elevation: 16, sector: "admin", x: 0.09, side: "right", above: false,
-    why: "Multimodal AI classifies text, image, and video against policy at scale with consistency human moderators cannot match. Edge cases still escalate, but volume is automated." },
+    why: "Routine classification is treated as automatable; ambiguous cases, appeals, and contextual judgment remain important constraints." },
   { name: "Warehouse Picker", elevation: 18, sector: "physical", x: 0.22, side: "right", above: true,
-    why: "Symbotic, Boston Dynamics, and humanoid robots from Figure and Apptronik now handle picking, sorting, and pallet movement. RaaS pricing brings deployment below minimum wage." },
+    why: "The scenario assumes increasing warehouse automation; facility design, item variability, safety, and cost affect deployment." },
   { name: "Long-Haul Truck Driver", elevation: 20, sector: "physical", x: 0.37, side: "right", above: false,
-    why: "Aurora and Kodiak are running commercial autonomous routes today. Highway driving is the easier autonomy problem. Regulatory rollout is the only remaining brake." },
+    why: "The scenario assumes progress in driving automation; weather, road conditions, safety, regulation, and economics can change the outcome." },
   { name: "Fast Food Worker", elevation: 22, sector: "service", x: 0.51, side: "right", above: true,
-    why: "Robotic kitchens (Miso, Chef Robotics), self-order kiosks, and AI drive-thru voice agents are deployed at major chains. Labor costs and turnover make the ROI obvious." },
+    why: "Ordering and repetitive preparation are treated as exposed; food handling, exceptions, maintenance, and customer service remain constraints." },
   { name: "Tax Preparer", elevation: 25, sector: "knowledge", x: 0.65, side: "right", above: false,
-    why: "AI agents handle increasingly complex returns. Storefront preparers face direct competition from free or low-cost AI tools that exceed their accuracy on standard filings." },
+    why: "Routine tax preparation is treated as exposed to software assistance; complex facts, verification, and professional accountability affect use." },
   { name: "Junior Copywriter", elevation: 27, sector: "creative", x: 0.78, side: "right", above: true,
-    why: "GPT-class models produce ad copy, social posts, blog content, and email sequences at near-zero cost. Senior creative direction still wanted, junior production roles already shrinking." },
+    why: "The scenario assigns low resistance to routine copy production; creative judgment, factual review, and brand responsibility can retain value." },
   { name: "Basic Paralegal", elevation: 28, sector: "knowledge", x: 0.91, side: "left", above: false,
-    why: "Harvey, CoCounsel, and similar tools automate document review, legal research, contract analysis, and discovery. Firms are quietly slowing paralegal hiring." },
+    why: "Document review and search are treated as exposed to automation; confidentiality, accuracy, and legal supervision remain constraints." },
 
   { name: "Real Estate Agent", elevation: 31, sector: "service", x: 0.09, side: "right", above: true,
-    why: "Zillow, Redfin, and AI-powered platforms handle more of search, valuation, and negotiation. MLS access barriers are eroding. Commission compression accelerates the trend." },
+    why: "Search and administrative work are treated as automatable; negotiation, local knowledge, relationships, and accountability affect the role." },
   { name: "Translator", elevation: 32, sector: "knowledge", x: 0.21, side: "right", above: false,
-    why: "Neural machine translation crossed human parity for most language pairs. Real-time conversation translation is now consumer-grade. Specialized legal and literary work remains." },
+    why: "Routine translation is treated as exposed; language coverage, context, specialist terminology, and quality review change the difficulty." },
   { name: "Insurance Underwriter", elevation: 33, sector: "knowledge", x: 0.33, side: "right", above: true,
-    why: "Algorithmic underwriting using broader data sources reduces manual review to genuine edge cases. Routine policy decisions are now made in milliseconds." },
+    why: "Routine underwriting analysis is treated as automatable; unusual risks, evidence quality, regulation, and accountability remain constraints." },
   { name: "Graphic Designer", elevation: 31, sector: "creative", x: 0.45, side: "right", above: false,
-    why: "Midjourney, Adobe Firefly, and Figma AI handle most production design work. Senior creative direction and brand strategy remain human-led, junior production work does not." },
+    why: "Production design is treated as exposed to generative tools; original direction, accessibility, licensing, and client judgment affect adoption." },
   { name: "Junior Software Engineer", elevation: 35, sector: "knowledge", x: 0.57, side: "right", above: true,
-    why: "Claude Code, Cursor, and Devin complete tickets autonomously. Entry-level hiring at major firms is already shrinking. The traditional engineering pipeline is breaking." },
+    why: "Routine coding tasks are treated as exposed; system context, debugging, security, and responsibility for outcomes remain constraints." },
   { name: "Accountant", elevation: 33, sector: "knowledge", x: 0.68, side: "right", above: false,
-    why: "AI handles books, reconciliation, and audit prep. CPA work concentrates on advisory and complex compliance. Bookkeeping as a profession is effectively over." },
+    why: "Bookkeeping and reconciliation are treated as exposed; complex accounting, review, advisory work, and accountability affect the role." },
   { name: "Financial Analyst", elevation: 38, sector: "knowledge", x: 0.78, side: "left", above: true,
-    why: "Models build, screen, and report on portfolios autonomously. Buy-side junior analyst roles are shrinking fastest as workflows compress into prompt-driven research." },
+    why: "Routine modeling and reporting are treated as automatable; evidence quality, uncertainty, and investment responsibility remain constraints." },
   { name: "Journalist", elevation: 39, sector: "creative", x: 0.87, side: "left", above: false,
-    why: "AI generates routine reporting on earnings, sports, and weather. Investigative work is harder to automate but newsroom budgets cut the easy roles first." },
+    why: "Routine summaries are treated as exposed; original reporting, source verification, editorial judgment, and public trust affect the role." },
   { name: "Pharmacist (Dispensing)", elevation: 40, sector: "knowledge", x: 0.95, side: "left", above: true,
-    why: "Robotic dispensing is widespread in hospitals. Mail-order pharmacy is automated end-to-end. The clinical consultation role remains, but the dispensing function is gone." },
+    why: "Dispensing logistics are treated as exposed; medication safety, consultation, oversight, and regulatory requirements remain constraints." },
   { name: "Radiologist", elevation: 43, sector: "knowledge", x: 0.50, side: "right", above: false,
-    why: "Over 870 FDA-approved AI radiology tools already deployed. Augmentation now, displacement of routine reads imminent. Specialty interventional work remains protected." },
+    why: "Image interpretation is treated as potentially assisted by AI; clinical context, validation, oversight, and patient responsibility affect adoption." },
 
   { name: "Management Consultant", elevation: 52, sector: "knowledge", x: 0.11, side: "right", above: true,
-    why: "AI handles analysis, slide generation, and research. Senior client relationship and strategic judgment retain value, but the leveraged junior pyramid that funded the model is collapsing." },
+    why: "Research and presentation production are treated as exposed; organizational context, client relationships, and strategic judgment retain weight." },
   { name: "Senior Software Architect", elevation: 55, sector: "knowledge", x: 0.26, side: "right", above: false,
-    why: "AI generates code, but architecture decisions, security, and system design under uncertainty still require human judgment. Hardest hit when AI architects become trustworthy." },
+    why: "The scenario gives system architecture more resistance because it combines requirements, security, tradeoffs, and responsibility under uncertainty." },
   { name: "Nurse Practitioner", elevation: 56, sector: "service", x: 0.41, side: "right", above: true,
-    why: "AI diagnostic support is strong, but physical exam, clinical judgment, and patient relationship are regulated to humans. Protected by licensure as much as capability." },
+    why: "The scenario gives clinical care more resistance because physical assessment, patient relationships, oversight, and accountability matter." },
   { name: "Film Director", elevation: 57, sector: "creative", x: 0.56, side: "right", above: false,
-    why: "Generative video models (Sora, Veo, Runway) producing scenes. Vision and creative direction still human-led, but supporting roles around the director are collapsing fast." },
+    why: "The scenario treats media production as increasingly assisted; direction, collaboration, artistic intent, and rights management remain constraints." },
   { name: "Skilled Trades (Plumber)", elevation: 58, sector: "physical", x: 0.70, side: "left", above: true,
-    why: "Robotics in unstructured physical environments (cramped spaces, novel layouts) is still hard. Plumbing, electrical, and HVAC mostly safe near-term. Long-term: humanoid robots." },
+    why: "The scenario gives skilled trades more resistance because work happens in varied physical environments with safety and dexterity demands." },
   { name: "Research Scientist", elevation: 61, sector: "knowledge", x: 0.83, side: "left", above: false,
-    why: "AI accelerates literature review, hypothesis generation, and analysis. Novel theoretical breakthroughs and physical experimentation still human-led, for now." },
+    why: "The scenario treats analysis as assisted while novel questions, experiment design, physical work, and reproducibility remain constraints." },
   { name: "Surgeon", elevation: 65, sector: "knowledge", x: 0.94, side: "left", above: true,
-    why: "Surgical robots assist precision tasks but full autonomy faces regulatory, liability, and edge-case barriers. Specialty surgical work remains among the most protected medical roles." },
+    why: "The scenario gives surgery more resistance because patient safety, physical intervention, unusual cases, and clinical accountability matter." },
 
   { name: "Executive Leadership", elevation: 72, sector: "leadership", x: 0.15, side: "right", above: true,
-    why: "AI augments decision-making but accountability, stakeholder management, and judgment under genuine uncertainty are structurally protected. Boards do not delegate to algorithms." },
+    why: "The scenario gives leadership more resistance because accountability, relationships, organizational context, and judgment shape decisions." },
   { name: "Emergency First Responder", elevation: 73, sector: "physical", x: 0.33, side: "right", above: false,
-    why: "Physical presence in chaotic, unstructured environments with life-or-death judgment is hard to automate. Drones and robotic assist exist, but the human is irreplaceable for now." },
+    why: "The scenario gives emergency response more resistance because unpredictable physical settings require rapid judgment and human coordination." },
   { name: "Trial Lawyer", elevation: 76, sector: "knowledge", x: 0.51, side: "right", above: true,
-    why: "AI handles research and briefing, but courtroom advocacy, jury reading, and trial strategy remain human. Litigation requires presence and persuasion AI cannot replicate yet." },
+    why: "The scenario gives trial advocacy more resistance because persuasion, evidence assessment, client duties, and courtroom judgment matter." },
   { name: "Mental Health Therapist", elevation: 78, sector: "service", x: 0.69, side: "left", above: false,
-    why: "Therapeutic alliance requires authentic human connection. AI tools augment but cannot replace. Protected by licensure, clinical evidence, and the nature of the work itself." },
+    why: "The scenario gives therapy more resistance because relationships, clinical judgment, privacy, and care responsibilities matter." },
   { name: "Diplomatic Negotiator", elevation: 81, sector: "leadership", x: 0.87, side: "left", above: true,
-    why: "High-stakes interpersonal negotiation with cultural and political nuance is among the last to automate. Trust, context, and human judgment cannot be delegated to algorithms." },
+    why: "The scenario gives diplomacy more resistance because context, trust, legitimacy, and interpersonal negotiation shape outcomes." },
 
   { name: "Crisis Negotiator", elevation: 88, sector: "leadership", x: 0.22, side: "right", above: true,
-    why: "Real-time judgment in life-or-death emotional situations is at the frontier of automation difficulty. Hostage and suicide negotiation require human presence by definition." },
+    why: "The scenario gives crisis negotiation more resistance because ambiguous situations, trust, emotional context, and immediate safety matter." },
   { name: "Federal Judge", elevation: 91, sector: "leadership", x: 0.45, side: "right", above: false,
-    why: "Constitutional authority, accountability, and case-by-case judgment cannot be delegated to AI under current law. Structurally protected, not capability-protected." },
+    why: "The scenario gives judicial work more resistance because institutional authority, due process, accountability, and contextual judgment matter." },
   { name: "Spiritual Leader", elevation: 93, sector: "leadership", x: 0.67, side: "right", above: true,
-    why: "Authenticity, community, and meaning-making are intrinsically human roles. No technical substitute exists or is conceivable within current religious traditions." },
+    why: "The scenario gives spiritual leadership more resistance because community relationships, meaning, tradition, and human trust are central." },
   { name: "Head of State", elevation: 96, sector: "leadership", x: 0.88, side: "left", above: false,
-    why: "Political legitimacy requires human accountability under all known governance systems. AI may advise but cannot govern. Last to fall, if ever." },
+    why: "The scenario gives political leadership more resistance because legitimacy, public accountability, institutions, and judgment shape the role." },
 ];
 
 const ZONES = [
@@ -355,7 +356,7 @@ function render() {
   }
   document.getElementById('stat-year').textContent = '~' + curYear;
   document.getElementById('stat-submerged').textContent = subCount + '/' + JOBS.length;
-  document.getElementById('stat-level').textContent = Math.round(waterLevel) + '%';
+  document.getElementById('stat-level').textContent = Math.round(waterLevel) + ' / 128';
 
   document.getElementById('year-marks').innerHTML =
     YEAR_MARKS.map(m => `<span class="${waterLevel >= m.level ? 'active' : ''}">${m.year}</span>`).join('');
@@ -511,7 +512,7 @@ function render() {
     svg += `<circle cx="${jx}" cy="${jy}" r="5.5" fill="${sub ? '#3A5A6A' : col}" stroke="${sub ? '#7AA0B4' : '#FFFFFF'}" stroke-width="${sub ? 1.5 : 1}" opacity="${sub ? 0.7 : 1}" style="pointer-events:none"/>`;
     if (sub) svg += `<text x="${jx}" y="${jy + 1.5}" text-anchor="middle" dominant-baseline="middle" fill="#0A1622" font-size="7" font-weight="bold" style="pointer-events:none">x</text>`;
     // Invisible generous hit target on top
-    svg += `<circle cx="${jx}" cy="${jy}" r="14" fill="transparent" data-idx="${idx}" class="job-hit" style="cursor:pointer"/>`;
+    svg += `<circle cx="${jx}" cy="${jy}" r="14" fill="transparent" data-idx="${idx}" class="job-hit" tabindex="0" role="button" aria-label="${job.name}: scenario assumptions" style="cursor:pointer"/>`;
   });
 
   svg += '</svg>';
@@ -531,10 +532,10 @@ function render() {
       tt.querySelector('.tt-sector').style.color = SECTOR_COLORS[job.sector];
       tt.querySelector('.tt-elev').textContent = 'Elevation: ' + job.elevation;
       const st = tt.querySelector('.tt-status');
-      st.textContent = sub ? 'DISPLACED' : 'ABOVE WATER';
+      st.textContent = sub ? 'BELOW SCENARIO LEVEL' : 'ABOVE SCENARIO LEVEL';
       st.style.color = sub ? '#E8855F' : '#7FC4A0';
       tt.querySelector('.tt-mechanism').textContent = job.why;
-      tt.querySelector('.tt-mechanism-label').textContent = sub ? 'HOW IT HAPPENED' : 'HOW IT WILL HAPPEN';
+      tt.querySelector('.tt-mechanism-label').textContent = 'SCENARIO ASSUMPTIONS';
       tt.style.display = 'block';
       const vr = viz.getBoundingClientRect();
       const hr = hit.getBoundingClientRect();
@@ -549,6 +550,12 @@ function render() {
     };
     const hide = () => { document.getElementById('tooltip').style.display = 'none'; };
     hit.addEventListener('mouseenter', show);
+    hit.addEventListener('focus', show);
+    hit.addEventListener('blur', hide);
+    hit.addEventListener('keydown', event => {
+      if (event.key === 'Escape') hide();
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); show(); }
+    });
     hit.addEventListener('mouseleave', hide);
     hit.addEventListener('click', show);   // tap support on touch devices
   });
